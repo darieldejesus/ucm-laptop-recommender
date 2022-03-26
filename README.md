@@ -55,6 +55,13 @@ Herramientas necesarias para el funcionamiento del sistema:
   $ pip install -r requirements.txt
   ```
 
+- **Instalar librerias**
+  
+  Finalmente, configuramos las variables de entorno. Para esto, necesitamos crear un archivo `.env` en el directorio base del proyecto.
+  ```sh
+  cp .env.example .env
+  ```
+
 ## Ejecución
 
 Para inicializar el proyecto, es necesario ejecutar el comando para inicializar los contenedores de Docker y ejecutar el script de Python.
