@@ -10,13 +10,12 @@ class MainAgent(Agent):
       print("InformBehav running")
       msg = Message(to=config.AGENT_LANG_USER)
       msg.set_metadata("test1", "val1")
-      msg.set_metadata("test2", "val2")
       msg.body = "Hello World"
 
       await self.send(msg)
       print("Message sent!")
 
-      self.exit_code = "Message successfully sent!";
+      self.exit_code = "Message successfully sent!"
 
   async def setup(self):
     print("Hola!. Soy el agente Asistente. Mi ID es \"{}\"".format(str(self.jid)))
