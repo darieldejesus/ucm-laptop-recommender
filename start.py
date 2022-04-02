@@ -6,23 +6,27 @@ from agents.lang_agent import LangAgent
 from agents.intel_agent import IntelAgent
 from agents.data_agent import DataAgent
 
+def start_agent(agent, port):
+  print("Iniciando Agente {0} disponible via http://localhost:{1}/spade".format(agent.alias, port))
+  agent.start()
+  agent.web.start(hostname="localhost", port=port)
+
 if __name__ == "__main__":
-  agent1 = MainAgent(config.AGENT_MAIN_USER, config.AGENT_MAIN_PASS)
+  
   agent2 = LangAgent(config.AGENT_LANG_USER, config.AGENT_LANG_PASS)
   agent3 = IntelAgent(config.AGENT_INTEL_USER, config.AGENT_INTEL_PASS)
   agent4 = DataAgent(config.AGENT_DATA_USER, config.AGENT_DATA_PASS)
+  agent1 = MainAgent(config.AGENT_MAIN_USER, config.AGENT_MAIN_PASS)
 
-  print("Iniciando Agente 1 (Main Agent)")
-  future1 = agent1.start()
+  agent2.alias = "Language Processer"
+  agent3.alias = "Machine Learning"
+  agent4.alias = "Database Manager"
+  agent1.alias = "Asistance"
 
-  print("Iniciando Agente 2 (Language Agent)")
-  future2 = agent2.start()
-
-  print("Iniciando Agente 3 (Intelligence Agent)")
-  future3 = agent3.start()
-
-  print("Iniciando Agente 4 (Database Agent)")
-  future4 = agent4.start()
+  start_agent(agent2, 10002)
+  start_agent(agent3, 10003)
+  start_agent(agent4, 10004)
+  start_agent(agent1, 10001)
 
   print("\nPara detener la ejecución, ejecutar Ctrl + C\n")
   while True:
