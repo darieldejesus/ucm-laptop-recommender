@@ -1,4 +1,5 @@
 from spade.agent import Agent
+from spade.message import Message
 from spade.behaviour import PeriodicBehaviour, OneShotBehaviour
 from spade.template import Template
 
@@ -26,20 +27,21 @@ class LangAgent(Agent):
   class RecvBehav(PeriodicBehaviour):
     async def run(self):
       print("RecvBehav running")
-
       msg = await self.receive()
       if msg:
         print("Message received!: {}".format(msg.body))
+        msg = Message(to=str(msg.sender))
+        await self.send(msg)
       else:
         print("Did not received any message")
 
   async def setup(self):
     print("Hola!. Soy el agente encargado del Lenguaje Natural. Mi ID es \"{}\"".format(str(self.jid)))
-    b = self.RecvBehav(period=2)
+    b = self.RecvBehav(10)
     template = Template()
     template.set_metadata("test1", "val1")
-    # self.add_behaviour(b, template)
-    # self.add_behaviour(self.BehavSubscribe())
+    self.add_behaviour(b, template)
+    #self.add_behaviour(self.BehavSubscribe())
 
   def stop(self):
     print("Deteniendo agente \"{}\"".format(str(self.jid)))

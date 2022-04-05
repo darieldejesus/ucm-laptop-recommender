@@ -11,10 +11,9 @@ INITIAL_CONTEXT = {
   'person': '',
   'message': '',
 }
-
+msg_body = "" 
 class MainAgent(Agent):
-
-  class BehavSubscribe(OneShotBehaviour):
+  class BehavSubscribe(OneShotBehaviour):    
     def on_available(self, jid, stanza):
       print("[{}] Agent {} is available.".format(self.agent.name, jid.split("@")[0]))
 
@@ -42,11 +41,20 @@ class MainAgent(Agent):
 
       msg = await self.receive()
       if msg:
-        message_body = msg.body
+        msg_body = msg.body
         print("Message received!: {}".format(msg.body))
         msg = Message(to=str(msg.sender))
-        msg.body = "He recibido tu mensaje: \"{}\"".format(message_body)
+        msg.body = "He recibido tu mensaje: \"{}\"".format(msg_body)
         await self.send(msg)
+
+  class sendMessage(OneShotBehaviour):
+    async def run(self):
+      msg = Message(to = config.AGENT_LANG_USER)
+      msg.set_metadata("test1", "val1")
+      msg.body = msg_body
+
+      await self.send(msg)
+      print("Message sent!"+ config.AGENT_LANG_USER)
 
   async def setup(self):
     print("Hola!. Soy el agente Asistente. Mi ID es \"{}\"".format(str(self.jid)))
@@ -58,6 +66,7 @@ class MainAgent(Agent):
     template = Template()
     self.add_behaviour(b, template)
     self.add_behaviour(self.BehavSubscribe())
+    self.add_behaviour(self.sendMessage())
 
   def stop(self):
     print("Deteniendo agente \"{}\"".format(str(self.jid)))
