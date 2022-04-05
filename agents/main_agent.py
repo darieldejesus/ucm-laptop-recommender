@@ -54,7 +54,7 @@ class MainAgent(Agent):
       msg.body = msg_body
 
       await self.send(msg)
-      print("Message sent!"+ config.AGENT_LANG_USER)
+      print("Message sent to {}".format(config.AGENT_LANG_USER))
 
   async def setup(self):
     print("Hola!. Soy el agente Asistente. Mi ID es \"{}\"".format(str(self.jid)))

@@ -29,7 +29,7 @@ class LangAgent(Agent):
       print("RecvBehav running")
       msg = await self.receive()
       if msg:
-        print("Message received!: {}".format(msg.body))
+        print("Message received: {}".format(msg.body))
         msg = Message(to=str(msg.sender))
         await self.send(msg)
       else:
