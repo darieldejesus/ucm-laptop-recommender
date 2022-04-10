@@ -1,4 +1,5 @@
 import config
+from Sender import sendingMessage as sm
 import rules.welcome
 from durable.lang import update_state, post, get_state
 from spade.agent import Agent
@@ -11,7 +12,16 @@ INITIAL_CONTEXT = {
   'person': '',
   'message': '',
 }
-msg_body = "" 
+async def SendM(self, toSend):
+  print("hola")
+  msg = Message(to = config.AGENT_LANG_USER)
+  msg.set_metadata("test1", "val1")
+  msg.body = toSend
+
+  await self.send(msg)
+  print("Message sent to {}".format(config.AGENT_LANG_USER))
+
+
 class MainAgent(Agent):
   class BehavSubscribe(OneShotBehaviour):    
     def on_available(self, jid, stanza):
@@ -38,23 +48,14 @@ class MainAgent(Agent):
     async def run(self):
       # state = get_state('welcome')
       # print(state)
-
       msg = await self.receive()
       if msg:
+        await sm.SendM(self, msg.body, config.AGENT_LANG_USER)
         msg_body = msg.body
         print("Message received!: {}".format(msg.body))
         msg = Message(to=str(msg.sender))
         msg.body = "He recibido tu mensaje: \"{}\"".format(msg_body)
         await self.send(msg)
-
-  class sendMessage(OneShotBehaviour):
-    async def run(self):
-      msg = Message(to = config.AGENT_LANG_USER)
-      msg.set_metadata("test1", "val1")
-      msg.body = msg_body
-
-      await self.send(msg)
-      print("Message sent to {}".format(config.AGENT_LANG_USER))
 
   async def setup(self):
     print("Hola!. Soy el agente Asistente. Mi ID es \"{}\"".format(str(self.jid)))
@@ -62,11 +63,10 @@ class MainAgent(Agent):
     # Iniciamos state para dar bienvenida al usuario
     # update_state("welcome", INITIAL_CONTEXT)
 
-    b = self.RecvBehav(period=1) # Recibir mensajes cada 1 seg
+    b = self.RecvBehav(period=10) # Recibir mensajes cada 1 seg
     template = Template()
     self.add_behaviour(b, template)
     self.add_behaviour(self.BehavSubscribe())
-    self.add_behaviour(self.sendMessage())
 
   def stop(self):
     print("Deteniendo agente \"{}\"".format(str(self.jid)))
