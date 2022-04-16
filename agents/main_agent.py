@@ -1,3 +1,4 @@
+from telnetlib import STATUS
 import config
 from Sender import sendingMessage as sm
 import rules.welcome
@@ -12,17 +13,11 @@ INITIAL_CONTEXT = {
   'person': '',
   'message': '',
 }
-async def SendM(self, toSend):
-  print("hola")
-  msg = Message(to = config.AGENT_LANG_USER)
-  msg.set_metadata("test1", "val1")
-  msg.body = toSend
-
-  await self.send(msg)
-  print("Message sent to {}".format(config.AGENT_LANG_USER))
-
-
+estado= 0
+nombre = ''
+es_nombre = False
 class MainAgent(Agent):
+  
   class BehavSubscribe(OneShotBehaviour):    
     def on_available(self, jid, stanza):
       print("[{}] Agent {} is available.".format(self.agent.name, jid.split("@")[0]))
@@ -43,27 +38,45 @@ class MainAgent(Agent):
       self.presence.set_available()
       # self.presence.subscribe(config.AGENT_LANG_USER)
       self.presence.subscribe(config.END_USER)
+  class Saludar(OneShotBehaviour):
+    async def run(self):
+      msg = Message(to=config.END_USER)
+      msg.body = await sm.pln("saludar", estado)
+      globals()['estado'] = 1
+      #await sm.plnSpacy()
+      await self.send(msg)
 
   class RecvBehav(PeriodicBehaviour):
     async def run(self):
       # state = get_state('welcome')
       # print(state)
       msg = await self.receive()
-      if msg:
-        await sm.SendM(self, msg.body, config.AGENT_LANG_USER)
+      if msg:        
         msg_body = msg.body
         print("Message received!: {}".format(msg.body))
-        msg = Message(to=str(msg.sender))
-        msg.body = "He recibido tu mensaje: \"{}\"".format(msg_body)
+        msg = Message(to=str(config.END_USER))
+        b = await sm.pln(msg_body.lower(),estado)
+        if(globals()['estado'] == 1):
+          globals()['nombre'] = b
+          globals()['estado'] = 2
+          b = await sm.pln("pregunta1",estado) 
+          msg.body= f'{globals()["nombre"]}, {b}'
+
+        else:
+          msg.body= f'{b}'
+        
         await self.send(msg)
 
+  
   async def setup(self):
     print("Hola!. Soy el agente Asistente. Mi ID es \"{}\"".format(str(self.jid)))
-
+    
+    saludar = self.Saludar()
+    self.add_behaviour(saludar)
     # Iniciamos state para dar bienvenida al usuario
     # update_state("welcome", INITIAL_CONTEXT)
 
-    b = self.RecvBehav(period=10) # Recibir mensajes cada 1 seg
+    b = self.RecvBehav(period=1) # Recibir mensajes cada 1 seg
     template = Template()
     self.add_behaviour(b, template)
     self.add_behaviour(self.BehavSubscribe())

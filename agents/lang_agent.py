@@ -14,7 +14,6 @@ class LangAgent(Agent):
       msg = await self.receive()
       if msg:
         print("Mensage Recibo: {}".format(msg.body))
-        #msg = Message(to=str(msg.sender))
         await self.send(msg)
         await sm.SendM(self, res, config.AGENT_MAIN_USER)
 
