@@ -1,12 +1,12 @@
 from telnetlib import STATUS
 import config
-from Sender import sendingMessage as sm
 import rules.welcome
 from durable.lang import update_state, post, get_state
 from spade.agent import Agent
 from spade.behaviour import PeriodicBehaviour, OneShotBehaviour
 from spade.message import Message
 from spade.template import Template
+from Templates import message as sm
 
 INITIAL_CONTEXT = {
   'status': 1,
@@ -43,7 +43,6 @@ class MainAgent(Agent):
       msg = Message(to=config.END_USER)
       msg.body = await sm.pln("saludar", estado)
       globals()['estado'] = 1
-      #await sm.plnSpacy()
       await self.send(msg)
 
   class RecvBehav(PeriodicBehaviour):
@@ -55,6 +54,7 @@ class MainAgent(Agent):
         msg_body = msg.body
         print("Message received!: {}".format(msg.body))
         msg = Message(to=str(config.END_USER))
+        await sm.SendM(self, msg.body, config.AGENT_LANG_USER)
         b = await sm.pln(msg_body.lower(),estado)
         if(globals()['estado'] == 1):
           globals()['nombre'] = b
