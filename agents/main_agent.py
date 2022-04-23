@@ -49,23 +49,23 @@ class MainAgent(Agent):
     async def run(self):
       # state = get_state('welcome')
       # print(state)
-      msg = await self.receive()
-      if msg:        
-        msg_body = msg.body
-        print("Message received!: {}".format(msg.body))
-        msg = Message(to=str(config.END_USER))
-        await sm.SendM(self, msg.body, config.AGENT_LANG_USER)
+      msg_received = await self.receive()
+      if msg_received:        
+        msg_body = msg_received.body
+        print("Message received!: {}".format(msg_received.body))
+        msg_reply = Message(to=str(config.END_USER))
+        await sm.SendM(self, msg_received.body, config.AGENT_LANG_USER)
         b = await sm.pln(msg_body.lower(),estado)
         if(globals()['estado'] == 1):
           globals()['nombre'] = b
           globals()['estado'] = 2
           b = await sm.pln("pregunta1",estado) 
-          msg.body= f'{globals()["nombre"]}, {b}'
+          msg_reply.body= f'{globals()["nombre"]}, {b}'
 
         else:
-          msg.body= f'{b}'
+          msg_reply.body= f'{b}'
         
-        await self.send(msg)
+        await self.send(msg_reply)
 
   
   async def setup(self):
