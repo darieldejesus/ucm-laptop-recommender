@@ -58,7 +58,7 @@ class IntelAgent(Agent):
     template.sender = config.AGENT_DATA_USER
     self.add_behaviour(recv_data_behav, template)
 
-    start_at = datetime.datetime.now() + datetime.timedelta(seconds=2)
+    start_at = datetime.datetime.now() + datetime.timedelta(seconds=5)
     solc_data_behav = RequestEntriesBehav(start_at=start_at)
     self.add_behaviour(solc_data_behav)
 
