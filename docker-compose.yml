@@ -8,3 +8,22 @@ services:
       - "5280:5280"
     tty: true
 
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports:
+      - 0.0.0.0:27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: qaz123
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: qaz123
+      ME_CONFIG_MONGODB_URL: mongodb://root:qaz123@mongo:27017/

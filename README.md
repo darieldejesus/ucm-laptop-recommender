@@ -25,21 +25,27 @@ Herramientas necesarias para el funcionamiento del sistema:
   
   Una vez los contenedores esten funcionando, es momento de configurar el usuario administrador en el servidor XMPP para posteriormente agregar los usuarios para cada agente.
 
-  Para acceder al servidor XMPP, solo debemos de ejecutar el comando:
+  Para configurar el usuario admin para el servidor XMPP, solo debemos de ejecutar el comando:
   ```sh
-  $ docker exec -it xmpp /bin/sh
+  $ docker exec xmpp bin/ejabberdctl register admin localhost qwerty1234
   ```
-  Donde `xmpp` es el nombre del contenedor que queremos acceder. Una vez dentro, ejecutamos el siguiente comando:
-  ```sh
-  $ ./bin/ejabberdctl register admin localhost qwerty1234
-  ```
+  Donde `xmpp` es el nombre del contenedor que queremos acceder.
   Nota: El usuario `admin` es creado durante la inicialización del servidor XMPP. Acá solo estamos asignando una contraseña a ese usuario, en este caso `qwerty1234`.
 
   Ahora que completamos el registro del administrador, nos dirigimos al navegador y entramos al apartado del administrador con solo entrar el la dirección http://localhost:5280/admin en el navegador. Solo tienes que introducir el usuario `admin` y la contraseña previamente asignada `qwerty1234`.
 
 - **Agregar usuarios XMPP**
   
-  Para la configuración de cada agente, es necesario agregar un usuario con su contraseña. Para esto, vamos a **Dominios Virtuales** > **localhost** > **Usuarios**. Ahí agregamos 4 nuevos usuarios:
+  Para la configuración de cada agente, es necesario agregar un usuario con su contraseña. Podemos ejecutar estos comandos para registrar los usuarios:
+  ```sh
+  $ docker exec xmpp ./bin/ejabberdctl register agente1 localhost qaz123 &&
+    docker exec xmpp ./bin/ejabberdctl register agente2 localhost qaz123 &&
+    docker exec xmpp ./bin/ejabberdctl register agente3 localhost qaz123 &&
+    docker exec xmpp ./bin/ejabberdctl register agente4 localhost qaz123 &&
+    docker exec xmpp ./bin/ejabberdctl register user localhost qaz123
+  ```
+  
+  **OPCIONAL**! En caso de hacerlo manual, vamos a **Dominios Virtuales** > **localhost** > **Usuarios**. Ahí agregamos 4 nuevos usuarios:
 
   | Usuario | Contraseña |
   |---------|------------|
@@ -47,6 +53,7 @@ Herramientas necesarias para el funcionamiento del sistema:
   | agente2 | qaz123     |
   | agente3 | qaz123     |
   | agente4 | qaz123     |
+  | user    | qaz123     |
 
 - **Instalar librerias**
   
