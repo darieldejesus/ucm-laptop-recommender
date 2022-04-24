@@ -47,38 +47,26 @@ class MainAgent(Agent):
 
   class RecvBehav(PeriodicBehaviour):
     async def run(self):
-      # state = get_state('welcome')
-      # print(state)
       msg_received = await self.receive()
       if msg_received:        
-        msg_body = msg_received.body
-        print("Message received!: {}".format(msg_received.body))
-        msg_reply = Message(to=str(config.END_USER))
-        await sm.SendM(self, msg_received.body, config.AGENT_LANG_USER)
-        b = await sm.pln(msg_body.lower(),estado)
-        if(globals()['estado'] == 1):
-          globals()['nombre'] = b
-          globals()['estado'] = 2
-          b = await sm.pln("pregunta1",estado) 
-          msg_reply.body= f'{globals()["nombre"]}, {b}'
-
-        else:
-          msg_reply.body= f'{b}'
+        if config.AGENT_LANG_USER in str(msg_received.sender):
+          print("Ejecutar funcion para el agente lang", msg_received.body)
+          msg_reply = Message(to=str(config.END_USER))
+          msg_reply.body = msg_received.body
+          await self.send(msg_reply)
         
-        await self.send(msg_reply)
+        elif config.END_USER in str(msg_received.sender):
+          await sm.EnviarMensaje(self, msg_received.body, config.AGENT_LANG_USER)
+          print("Ejecutar funcion para el usuario final", msg_received.body)
 
-  
+        #print("Message received!: {}".format(msg_received.body))
+        
   async def setup(self):
     print("Hola!. Soy el agente Asistente. Mi ID es \"{}\"".format(str(self.jid)))
-    
-    saludar = self.Saludar()
-    self.add_behaviour(saludar)
-    # Iniciamos state para dar bienvenida al usuario
-    # update_state("welcome", INITIAL_CONTEXT)
-
-    b = self.RecvBehav(period=1) # Recibir mensajes cada 1 seg
+   
+    received = self.RecvBehav(period=1) 
     template = Template()
-    self.add_behaviour(b, template)
+    self.add_behaviour(received, template)
     self.add_behaviour(self.BehavSubscribe())
 
   def stop(self):
