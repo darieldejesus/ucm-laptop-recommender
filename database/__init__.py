@@ -1,5 +1,6 @@
 from bson import ObjectId
 from pymongo import MongoClient
+from slugify import slugify
 import pandas
 import config
 
@@ -72,3 +73,38 @@ def update_laptops_with_cluster(laptop_list):
       }
     )
   print("Laptops actualizadas!")
+
+def find_category(category):
+  client = get_client()
+  collection = client[config.DATABASE_NAME][config.CATEGORIES_COLLECTION_NAME]
+  slug = slugify(category)
+  found = collection.find_one({
+    "slug" : { "$eq" : slug }
+  })
+  return found
+
+def find_edge_laptops():
+  client = get_client()
+  collection = client[config.DATABASE_NAME][config.LAPTOPS_COLLECTION_NAME]
+  # @TODO Cambiar los valores dinamicamente
+  laptop_edge_one = collection.find_one({
+    "cluster" : 0,
+  }, {
+    "manufacturer": 1,
+    "model": 1,
+    "cpu": 1,
+    "storage": 1,
+    "gpu": 1,
+    "ram_size": 1
+  })
+  laptop_edge_two = collection.find_one({
+    "cluster" : 4
+  }, {
+    "manufacturer": 1,
+    "model": 1,
+    "cpu": 1,
+    "storage": 1,
+    "gpu": 1,
+    "ram_size": 1
+  })
+  return [laptop_edge_one, laptop_edge_two]

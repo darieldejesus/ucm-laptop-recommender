@@ -17,8 +17,17 @@ class RecvActionMainBehav(PeriodicBehaviour):
       reply_msg = Message(to=config.AGENT_MAIN_USER)
       reply_msg.set_metadata("action", actions.EXTRACT_NAME)
       reply_msg.body = dumps({
-        "found": False,
+        "found": True,
         "body": "Dariel De Jesus"
+      })
+      await self.send(reply_msg)
+    elif msg_received and msg_received.get_metadata("action") == actions.EXTRACT_REQUIREMENTS:
+      # Extraer requerimientos desde el texto
+      reply_msg = Message(to=config.AGENT_MAIN_USER)
+      reply_msg.set_metadata("action", actions.EXTRACT_REQUIREMENTS)
+      reply_msg.body = dumps({
+        "found": True,
+        "body": msg_received.body
       })
       await self.send(reply_msg)
 

@@ -38,7 +38,14 @@ class RecvDataBehav(PeriodicBehaviour):
       center_ids = kmeans.cluster_centers_
       predictions = kmeans.predict(measurable_props)
 
-      # print(center_ids)
+      center_inserts = []
+      for center in center_ids:
+        center_inserts.append({
+          "performance": center[0],
+          "price": center[1],
+        })
+
+      print(center_ids)
       # print(predictions)
       for index, laptop in enumerate(laptop_list):
         laptop_list[index]["cluster"] = int(predictions[index])
@@ -47,6 +54,12 @@ class RecvDataBehav(PeriodicBehaviour):
       msg.set_metadata("action", actions.UPDATE_LAPTOPS)
       msg.body = json.dumps(laptop_list)
       await self.send(msg)
+
+      # @TODO Insertar center_inserts en la DB
+      # msg = Message(to=config.AGENT_DATA_USER)
+      # msg.set_metadata("action", actions.UPDATE_CENTER_LAPTOPS)
+      # msg.body = json.dumps(center_ids)
+      # await self.send(msg)
 
 class IntelAgent(Agent):
   async def setup(self):

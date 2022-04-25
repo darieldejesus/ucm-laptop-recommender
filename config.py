@@ -6,6 +6,7 @@ load_dotenv()
 DATABASE_CONNECTION_STRING = "mongodb://root:qaz123@localhost:27017/"
 DATABASE_NAME = "dasi"
 LAPTOPS_COLLECTION_NAME = "laptops"
+CATEGORIES_COLLECTION_NAME = "categories"
 
 AGENT_MAIN_USER = os.getenv("AGENT_MAIN_USER")
 AGENT_MAIN_PASS = os.getenv("AGENT_MAIN_PASS")

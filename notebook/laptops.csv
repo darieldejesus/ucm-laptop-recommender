@@ -1,22 +1,12 @@
 Manufacturer,Model.Name,Category,Screen,CPU,Storage,GPU,Operating.System,Weight,Price,CPU.Speed,Storage.Type,GPU.Rank,Storage.Size,RAM.Size,Screen.Size,Category.Type,GPU.Speed
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2560x1600,Intel Core i5 2.3GHz,128GB SSD,Intel Iris Plus Graphics 640,macOS,1.37,1339.69,2.3,1,698,128,8,33.782,2,1939
-Apple,Macbook Air,Ultrabook,1440x900,Intel Core i5 1.8GHz,128GB Flash Storage,Intel HD Graphics 6000,macOS,1.34,898.94,1.8,1,934,128,8,33.782,2,1703
 HP,250 G6,Notebook,Full HD 1920x1080,Intel Core i5 7200U 2.5GHz,256GB SSD,Intel HD Graphics 620,No OS,1.86,575,2.5,1,885,256,8,39.624,1,1752
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2880x1800,Intel Core i7 2.7GHz,512GB SSD,AMD Radeon Pro 455,macOS,1.83,2537.45,2.7,1,359,512,16,39.116,2,2278
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2560x1600,Intel Core i5 3.1GHz,256GB SSD,Intel Iris Plus Graphics 650,macOS,1.37,1803.6,3.1,1,590,256,8,33.782,2,2047
 Acer,Aspire 3,Notebook,1366x768,AMD A9-Series 9420 3GHz,500GB HDD,AMD Radeon R5,Windows,2.1,400,3,0,832,500,4,39.624,1,1805
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2880x1800,Intel Core i7 2.2GHz,256GB Flash Storage,Intel Iris Pro Graphics,Mac OS,2.04,2139.97,2.2,1,675,256,16,39.116,2,1962
-Apple,Macbook Air,Ultrabook,1440x900,Intel Core i5 1.8GHz,256GB Flash Storage,Intel HD Graphics 6000,macOS,1.34,1158.7,1.8,1,934,256,8,33.782,2,1703
 Asus,ZenBook UX430UN,Ultrabook,Full HD 1920x1080,Intel Core i7 8550U 1.8GHz,512GB SSD,Nvidia GeForce MX150,Windows,1.3,1495,1.8,1,469,512,16,35.56,2,2168
 Acer,Swift 3,Ultrabook,IPS Panel Full HD 1920x1080,Intel Core i5 8250U 1.6GHz,256GB SSD,Intel UHD Graphics 620,Windows,1.6,770,1.6,1,809,256,8,35.56,2,1828
 HP,250 G6,Notebook,1366x768,Intel Core i5 7200U 2.5GHz,500GB HDD,Intel HD Graphics 620,No OS,1.86,393.9,2.5,0,885,500,4,39.624,1,1752
 HP,250 G6,Notebook,Full HD 1920x1080,Intel Core i3 6006U 2GHz,500GB HDD,Intel HD Graphics 520,No OS,1.86,344.99,2,0,921,500,4,39.624,1,1716
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2880x1800,Intel Core i7 2.8GHz,256GB SSD,AMD Radeon Pro 555,macOS,1.83,2439.97,2.8,1,357,256,16,39.116,2,2280
 Dell,Inspiron 3567,Notebook,Full HD 1920x1080,Intel Core i3 6006U 2GHz,256GB SSD,AMD Radeon R5 M430,Windows,2.2,498.9,2,1,1117,256,4,39.624,1,1520
-Apple,"MacBook 12""",Ultrabook,IPS Panel Retina Display 2304x1440,Intel Core M m3 1.2GHz,256GB SSD,Intel HD Graphics 615,macOS,0.92,1262.4,1.2,1,1043,256,8,30.48,2,1594
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2560x1600,Intel Core i5 2.3GHz,256GB SSD,Intel Iris Plus Graphics 640,macOS,1.37,1518.55,2.3,1,698,256,8,33.782,2,1939
 Dell,Inspiron 3567,Notebook,Full HD 1920x1080,Intel Core i7 7500U 2.7GHz,256GB SSD,AMD Radeon R5 M430,Windows,2.2,745,2.7,1,1117,256,8,39.624,1,1520
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2880x1800,Intel Core i7 2.9GHz,512GB SSD,AMD Radeon Pro 560,macOS,1.83,2858,2.9,1,659,512,16,39.116,2,1978
 Lenovo,IdeaPad 320-15IKB,Notebook,Full HD 1920x1080,Intel Core i3 7100U 2.4GHz,1TB HDD,Nvidia GeForce 940MX,No OS,2.2,499,2.4,0,659,1024,8,39.624,1,1978
 Dell,XPS 13,Ultrabook,IPS Panel Full HD / Touchscreen 1920x1080,Intel Core i5 8250U 1.6GHz,128GB SSD,Intel UHD Graphics 620,Windows,1.22,979,1.6,1,809,128,8,33.782,2,1828
 Asus,Vivobook E200HA,Netbook,1366x768,Intel Atom x5-Z8350 1.44GHz,32GB Flash Storage,Intel HD Graphics 400,Windows,0.98,191.9,1.4,1,1487,32,2,29.464,4,1150
@@ -25,7 +15,6 @@ HP,255 G6,Notebook,1366x768,AMD E-Series E2-9000e 1.5GHz,500GB HDD,AMD Radeon R2
 Dell,Inspiron 5379,2 in 1 Convertible,Full HD / Touchscreen 1920x1080,Intel Core i5 8250U 1.6GHz,256GB SSD,Intel UHD Graphics 620,Windows,1.62,819,1.6,1,809,256,8,33.782,3,1828
 HP,15-BS101nv (i7-8550U/8GB/256GB/FHD/W10),Ultrabook,Full HD 1920x1080,Intel Core i7 8550U 1.8GHz,256GB SSD,Intel HD Graphics 620,Windows,1.91,659,1.8,1,885,256,8,39.624,2,1752
 Dell,Inspiron 3567,Notebook,1366x768,Intel Core i3 6006U 2GHz,1TB HDD,Intel HD Graphics 520,Windows,2.3,418.64,2,0,921,1024,4,39.624,1,1716
-Apple,MacBook Air,Ultrabook,1440x900,Intel Core i5 1.6GHz,128GB Flash Storage,Intel HD Graphics 6000,Mac OS,1.35,1099,1.6,1,934,128,8,33.782,2,1703
 Dell,Inspiron 5570,Notebook,Full HD 1920x1080,Intel Core i5 8250U 1.6GHz,256GB SSD,AMD Radeon 530,Windows,2.2,800,1.6,1,870,256,8,39.624,1,1767
 Dell,Latitude 5590,Ultrabook,Full HD 1920x1080,Intel Core i7 8650U 1.9GHz,256GB SSD +  256GB SSD,Intel UHD Graphics 620,Windows,1.88,1298,1.9,1,809,256,8,39.624,2,1828
 HP,ProBook 470,Notebook,Full HD 1920x1080,Intel Core i5 8250U 1.6GHz,1TB HDD,Nvidia GeForce 930MX,Windows,2.5,896,1.6,0,707,1024,8,43.942,1,1930
@@ -33,7 +22,6 @@ Chuwi,"LapBook 15.6""",Notebook,Full HD 1920x1080,Intel Atom x5-Z8300 1.44GHz,64
 Asus,E402WA-GA010T (E2-6110/2GB/32GB/W10),Notebook,1366x768,AMD E-Series E2-6110 1.5GHz,32GB Flash Storage,AMD Radeon R2,Windows,1.65,199,1.5,1,1540,32,2,35.56,1,1097
 HP,17-ak001nv (A6-9220/4GB/500GB/Radeon,Notebook,Full HD 1920x1080,AMD A6-Series 9220 2.5GHz,500GB HDD,AMD Radeon 530,Windows,2.71,439,2.5,0,870,500,4,43.942,1,1767
 Dell,XPS 13,Ultrabook,Touchscreen / Quad HD+ 3200x1800,Intel Core i7 8550U 1.8GHz,512GB SSD,Intel UHD Graphics 620,Windows,1.2,1869,1.8,1,809,512,16,33.782,2,1828
-Apple,MacBook Air,Ultrabook,1440x900,Intel Core i5 1.6GHz,256GB Flash Storage,Intel HD Graphics 6000,Mac OS,1.35,998,1.6,1,934,256,8,33.782,2,1703
 Lenovo,IdeaPad 120S-14IAP,Notebook,1366x768,Intel Celeron Dual Core N3350 1.1GHz,64GB Flash Storage,Intel HD Graphics 500,Windows,1.44,249,1.1,1,1487,64,4,35.56,1,1150
 Acer,Aspire 3,Notebook,1366x768,Intel Core i3 7130U 2.7GHz,1TB HDD,Intel HD Graphics 620,Linux,2.1,367,2.7,0,885,1024,4,39.624,1,1752
 Dell,Inspiron 5770,Notebook,IPS Panel Full HD 1920x1080,Intel Core i5 8250U 1.6GHz,128GB SSD +  1TB HDD,AMD Radeon 530,Windows,2.8,979,1.6,1,870,1024,8,43.942,1,1767
@@ -44,7 +32,6 @@ Dell,Inspiron 7577,Gaming,IPS Panel Full HD 1920x1080,Intel Core i7 7700HQ 2.8GH
 Asus,X542UQ-GO005 (i5-7200U/8GB/1TB/GeForce,Notebook,1366x768,Intel Core i5 7200U 2.5GHz,1TB HDD,Nvidia GeForce 940MX,Linux,2.3,522.99,2.5,0,659,1024,8,39.624,1,1978
 Acer,Aspire A515-51G,Notebook,IPS Panel Full HD 1920x1080,Intel Core i5 8250U 1.6GHz,256GB SSD,Intel UHD Graphics 620,Windows,2.2,682,1.6,1,809,256,4,39.624,1,1828
 Dell,Inspiron 7773,2 in 1 Convertible,Full HD / Touchscreen 1920x1080,Intel Core i5 8250U 1.6GHz,1TB HDD,Nvidia GeForce 150MX,Windows,2.77,999,1.6,0,469,1024,12,43.942,3,2168
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2560x1600,Intel Core i5 2.0GHz,256GB SSD,Intel Iris Graphics 540,macOS,1.37,1419,2,1,721,256,8,33.782,2,1916
 Lenovo,IdeaPad 320-15ISK,Notebook,1366x768,Intel Core i3 6006U 2GHz,128GB SSD,Intel HD Graphics 520,No OS,2.2,369,2,1,921,128,4,39.624,1,1716
 Asus,Rog Strix,Gaming,Full HD 1920x1080,AMD Ryzen 1700 3GHz,256GB SSD +  1TB HDD,AMD Radeon RX 580,Windows,3.2,1299,3,1,143,1024,8,43.942,6,2494
 Dell,Inspiron 3567,Notebook,Full HD 1920x1080,Intel Core i5 7200U 2.5GHz,256GB SSD,AMD Radeon R5 M430,Windows,2.3,639,2.5,1,1117,256,4,39.624,1,1520
@@ -80,7 +67,6 @@ Dell,Inspiron 5570,Notebook,Full HD 1920x1080,Intel Core i7 8550U 1.8GHz,128GB S
 Acer,Aspire A515-51G-32MX,Notebook,Full HD 1920x1080,Intel Core i3 7130U 2.7GHz,1TB HDD,Nvidia GeForce MX130,Windows,2.2,530,2.7,0,562,1024,4,39.624,1,2075
 HP,ProBook 470,Notebook,Full HD 1920x1080,Intel Core i5 8250U 1.6GHz,128GB SSD +  1TB HDD,Nvidia GeForce 930MX,Windows,2.5,977,1.6,1,707,1024,8,43.942,1,1930
 Dell,Latitude 5590,Ultrabook,IPS Panel Full HD 1920x1080,Intel Core i5 8250U 1.6GHz,256GB SSD,Intel UHD Graphics 620,Windows,1.88,1096.16,1.6,1,809,256,8,39.624,2,1828
-Apple,"MacBook 12""",Ultrabook,IPS Panel Retina Display 2304x1440,Intel Core i5 1.3GHz,512GB SSD,Intel HD Graphics 615,macOS,0.92,1510,1.3,1,1043,512,8,30.48,2,1594
 HP,ProBook 440,Notebook,Full HD 1920x1080,Intel Core i5 8250U 1.6GHz,256GB SSD,Intel HD Graphics 620,Windows,1.63,860,1.6,1,885,256,8,35.56,1,1752
 Lenovo,IdeaPad 320-15AST,Notebook,Full HD 1920x1080,AMD A6-Series 9220 2.5GHz,128GB SSD,AMD R4 Graphics,Windows,2.2,399,2.5,1,1454,128,4,39.624,1,1183
 Acer,Aspire 3,Notebook,1366x768,AMD A9-Series 9420 3GHz,1TB HDD,AMD Radeon R5,Windows,2.1,395,3,0,832,1024,4,39.624,1,1805
@@ -248,7 +234,6 @@ Dell,Inspiron 5570,Notebook,Full HD 1920x1080,Intel Core i7 8550U 1.8GHz,128GB S
 HP,15-bs015dx (i5-7200U/8GB/1TB/W10),Notebook,Touchscreen 1366x768,Intel Core i5 7200U 2.5GHz,1TB HDD,Intel HD Graphics 620,Windows,2.04,559,2.5,0,885,1024,8,39.624,1,1752
 Asus,Rog G701VIK-BA060T,Gaming,Full HD 1920x1080,Intel Core i7 7820HK 2.9GHz,256GB SSD,Nvidia GeForce GTX 1080,Windows,3.6,2999,2.9,1,50,256,16,43.942,6,2587
 HP,ProBook 430,Notebook,IPS Panel Full HD 1920x1080,Intel Core i5 8250U 1.6GHz,500GB HDD,Intel UHD Graphics 620,Windows,1.49,675,1.6,0,809,500,4,33.782,1,1828
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2560x1600,Intel Core i5 3.1GHz,512GB SSD,Intel Iris Plus Graphics 650,macOS,1.37,2040,3.1,1,590,512,8,33.782,2,2047
 Dell,Inspiron 5579,2 in 1 Convertible,IPS Panel Full HD / Touchscreen 1920x1080,Intel Core i7 8550U 1.8GHz,1TB HDD,Intel UHD Graphics 620,Windows,2.08,819,1.8,0,809,1024,8,39.624,3,1828
 Asus,ROG G752VSK-GC493T,Gaming,Full HD 1920x1080,Intel Core i7 7700HQ 2.8GHz,256GB SSD +  1TB HDD,Nvidia GeForce GTX 980M,Windows,4.3,1799,2.8,1,105,1024,16,43.942,6,2532
 Asus,X505BP-BR019T (A9-9420/4GB/1TB/Radeon,Notebook,1366x768,AMD A9-Series 9420 3GHz,1TB HDD,AMD Radeon R5 M420,Windows,1.68,469,3,0,1327,1024,4,39.624,1,1310
@@ -269,7 +254,6 @@ Asus,ZenBook Flip,2 in 1 Convertible,Full HD / Touchscreen 1920x1080,Intel Core 
 Lenovo,IdeaPad 320-15IKBN,Notebook,Full HD 1920x1080,Intel Core i5 7200U 2.5GHz,1TB HDD,Intel HD Graphics 620,No OS,2.2,467,2.5,0,885,1024,4,39.624,1,1752
 HP,Probook 470,Notebook,Full HD 1920x1080,Intel Core i7 8550U 1.8GHz,1TB HDD,Nvidia GeForce 930MX,Windows,2.5,1018,1.8,0,707,1024,8,43.942,1,1930
 Lenovo,V330-15IKB (i7-8550U/8GB/256GB/FHD/W10),Notebook,Full HD 1920x1080,Intel Core i7 8550U 1.8GHz,256GB SSD,Intel UHD Graphics 620,Windows,2.05,880,1.8,1,809,256,8,39.624,1,1828
-Apple,MacBook Pro,Ultrabook,IPS Panel Retina Display 2560x1600,Intel Core i5 2.9GHz,512GB SSD,Intel Iris Graphics 550,macOS,1.37,1958.9,2.9,1,696,512,8,33.782,2,1941
 Asus,Rog Strix,Gaming,Full HD 1920x1080,AMD Ryzen 1700 3GHz,256GB SSD +  1TB HDD,AMD Radeon RX 580,Windows,3.2,1549,3,1,143,1024,16,43.942,6,2494
 Dell,Inspiron 3576,Notebook,Full HD 1920x1080,Intel Core i7 8550U 1.8GHz,256GB SSD,AMD Radeon 520,Linux,2.14,735.07,1.8,1,948,256,8,39.624,1,1689
 Lenovo,ThinkPad X1,2 in 1 Convertible,Touchscreen 2560x1440,Intel Core i7 6600U 2.6GHz,512GB SSD,Intel HD Graphics 520,Windows,1.36,2499,2.6,1,921,512,16,35.56,3,1716
@@ -793,7 +777,6 @@ Asus,FX502VM-DM560T (i7-7700HQ/8GB/1TB,Gaming,Full HD 1920x1080,Intel Core i7 77
 Vero,K146 (N3350/4GB/32GB/W10),Notebook,1920x1080,Intel Celeron Dual Core N3350 1.1GHz,32GB Flash Storage,Intel HD Graphics 500,Windows,1.22,202.9,1.1,1,1487,32,4,35.56,1,1150
 Lenovo,ThinkPad Yoga,2 in 1 Convertible,IPS Panel Full HD / Touchscreen 1920x1080,Intel Core i7 7500U 2.7GHz,512GB SSD,Intel HD Graphics 620,Windows,1.37,1970,2.7,1,885,512,8,33.782,3,1752
 Lenovo,Yoga 510-15IKB,2 in 1 Convertible,Full HD / Touchscreen 1920x1080,Intel Core i5 7200U 2.5GHz,256GB SSD,AMD Radeon R7 M460,Windows,2.08,959,2.5,1,460,256,8,39.624,3,2177
-Apple,"MacBook 12""",Ultrabook,IPS Panel Retina Display 2304x1440,Intel Core M 1.2GHz,512GB Flash Storage,Intel HD Graphics 5300,Mac OS,0.92,1165,1.2,1,1408,512,8,30.48,2,1229
 Lenovo,ThinkPad X1,2 in 1 Convertible,IPS Panel Touchscreen 2560x1440,Intel Core i5 7200U 2.5GHz,256GB SSD,Intel HD Graphics 620,Windows,1.42,2330,2.5,1,885,256,8,35.56,3,1752
 Asus,R417NA-RS01 (N3350/4GB/32GB/W10),Notebook,1366x768,Intel Celeron Dual Core N3350 1.1GHz,32GB Flash Storage,Intel HD Graphics 500,Windows,1.63,299,1.1,1,1487,32,4,35.56,1,1150
 Dell,Latitude 3580,Notebook,1366x768,Intel Core i5 7200U 2.5GHz,128GB SSD,Intel HD Graphics 620,Windows,1.95,810,2.5,1,885,128,8,39.624,1,1752
@@ -1068,7 +1051,6 @@ Dell,XPS 13,Ultrabook,Full HD 1920x1080,Intel Core i7 7500U 2.7GHz,256GB SSD,Int
 Asus,ROG G701VO,Gaming,IPS Panel Full HD 1920x1080,Intel Core i7 6820HK 2.7GHz,1TB SSD,Nvidia GeForce GTX 980,Windows,3.58,3975,2.7,1,105,1024,64,43.942,6,2532
 Dell,Inspiron 5368,2 in 1 Convertible,Full HD / Touchscreen 1920x1080,Intel Core i7 6500U 2.5GHz,256GB SSD,Intel HD Graphics 520,Windows,1.62,798.01,2.5,1,921,256,8,33.782,3,1716
 Dell,Alienware 15,Gaming,4K Ultra HD 3840x2160,Intel Core i7 6700HQ 2.6GHz,256GB SSD +  1TB HDD,Nvidia GeForce GTX 970M,Windows,3.21,1329,2.6,1,221,1024,16,39.624,6,2416
-Apple,"MacBook 12""",Ultrabook,IPS Panel Retina Display 2304x1440,Intel Core M 1.1GHz,256GB Flash Storage,Intel HD Graphics 515,Mac OS,0.92,1300,1.1,1,1158,256,8,30.48,2,1479
 Dell,Latitude 3570,Notebook,1366x768,Intel Core i3 6100U 2.3GHz,500GB HDD,Intel HD Graphics 520,Windows,2.06,481.98,2.3,0,921,500,4,39.624,1,1716
 HP,ProBook 650,Notebook,1366x768,Intel Core i5 6200U 2.3GHz,500GB HDD,Intel HD Graphics 520,Windows,2.31,1199,2.3,0,921,500,4,39.624,1,1716
 HP,EliteBook 820,Ultrabook,Full HD 1920x1080,Intel Core i5 6200U 2.3GHz,256GB SSD,Intel HD Graphics 520,Windows,1.26,1199,2.3,1,921,256,8,31.75,2,1716
@@ -1192,7 +1174,6 @@ Acer,Predator G9-793,Gaming,IPS Panel Full HD 1920x1080,Intel Core i7 7700HQ 2.8
 Lenovo,Legion Y520-15IKBN,Gaming,IPS Panel Full HD 1920x1080,Intel Core i5 7300HQ 2.5GHz,1TB HDD,Nvidia GeForce GTX 1050,Windows,2.4,819,2.5,0,270,1024,8,39.624,6,2367
 Samsung,Chromebook Plus,2 in 1 Convertible,IPS Panel Touchscreen 2400x1600,Samsung Cortex A72&A53 2.0GHz,32GB Flash Storage,ARM Mali T860 MP4,Chrome OS,1.15,659,2,1,2636,32,4,31.242,3,1
 HP,250 G6,Notebook,1366x768,Intel Core i5 7200U 2.5GHz,500GB HDD,Intel HD Graphics 620,Windows,1.86,485,2.5,0,885,500,4,39.624,1,1752
-Apple,"MacBook 12""",Ultrabook,IPS Panel Retina Display 2304x1440,Intel Core M 1.1GHz,256GB Flash Storage,Intel HD Graphics 5300,Mac OS,0.92,1163,1.1,1,1408,256,8,30.48,2,1229
 Dell,Inspiron 7378,2 in 1 Convertible,IPS Panel Full HD / Touchscreen 1920x1080,Intel Core i5 7200U 2.5GHz,256GB SSD,Intel HD Graphics 620,Windows,1.6,1199,2.5,1,885,256,8,33.782,3,1752
 HP,Pavilion Power,Notebook,IPS Panel Full HD 1920x1080,Intel Core i7 7700HQ 2.8GHz,128GB SSD +  1TB HDD,Nvidia GeForce GTX 1050,Windows,2.21,1327,2.8,1,270,1024,12,39.624,1,2367
 Lenovo,V110-15ISK (i3-6006U/4GB/1TB/Radeon,Notebook,1366x768,Intel Core i3 6006U 2GHz,1TB HDD,AMD Radeon R5 M430,No OS,1.9,368,2,0,1117,1024,4,39.624,1,1520
@@ -1209,7 +1190,6 @@ HP,15-bs025nv (i5-7200U/8GB/256GB/W10),Notebook,1366x768,Intel Core i5 7200U 2.5
 Lenovo,IdeaPad 320-15AST,Notebook,1366x768,AMD E-Series 9000 2.2GHz,500GB HDD,AMD Radeon R2 Graphics,Windows,2.2,299,2.2,0,1540,500,4,39.624,1,1097
 Acer,Aspire E5-774G,Notebook,1600x900,Intel Core i3 6006U 2.0GHz,1TB HDD,Nvidia GeForce 940MX,Windows,3.3,629,2,0,659,1024,8,43.942,1,1978
 Asus,Rog Strix,Gaming,Full HD 1920x1080,Intel Core i7 7700HQ 2.8GHz,256GB SSD +  1TB HDD,Nvidia GeForce GTX 1070,Windows,2.2,2449,2.8,1,111,1024,16,39.624,6,2526
-Apple,"MacBook 12""",Ultrabook,IPS Panel Retina Display 2304x1440,Intel Core M 1.2GHz,512GB Flash Storage,Intel HD Graphics 515,Mac OS,0.92,1279,1.2,1,1158,512,8,30.48,2,1479
 Asus,FX502VM-AS73 (i7-7700HQ/16GB/1TB,Notebook,Full HD 1920x1080,Intel Core i7 7700HQ 2.8GHz,128GB SSD +  1TB HDD,Nvidia GeForce GTX 1060,Windows,2.2,1749,2.8,1,163,1024,16,39.624,1,2474
 MSI,GS73VR Stealth,Gaming,IPS Panel Full HD 1920x1080,Intel Core i7 6700HQ 2.6GHz,256GB SSD +  1TB HDD,Nvidia GeForce GTX 1060,Windows,2.43,1948.99,2.6,1,163,1024,16,43.942,6,2474
 Dell,Inspiron 7579,2 in 1 Convertible,IPS Panel Full HD / Touchscreen 1920x1080,Intel Core i5 7200U 2.5GHz,256GB SSD,Intel HD Graphics 620,Windows,2.191,999,2.5,1,885,256,8,39.624,3,1752
@@ -1233,7 +1213,6 @@ Lenovo,ThinkPad Yoga,Netbook,IPS Panel Full HD / Touchscreen 1920x1080,Intel Cor
 Razer,Blade Pro,Gaming,Full HD 1920x1080,Intel Core i7 7700HQ 2.8GHz,1TB SSD,Nvidia GeForce GTX 1060,Windows,1.95,3499,2.8,1,163,1024,16,35.56,6,2474
 Dell,Inspiron 3567,Notebook,Touchscreen 1366x768,Intel Core i3 7100U 2.4GHz,1TB HDD,Intel HD Graphics 620,Windows,2.3,469.01,2.4,0,885,1024,8,39.624,1,1752
 MSI,GE72VR Apache,Gaming,Full HD 1920x1080,Intel Core i7 7700HQ 2.8GHz,256GB SSD +  1TB HDD,Nvidia GeForce GTX 1060,Windows,2.7,1598,2.8,1,163,1024,16,43.942,6,2474
-Apple,MacBook Air,Ultrabook,1366x768,Intel Core i5 1.6GHz,256GB Flash Storage,Intel HD Graphics 6000,Mac OS,1.08,959,1.6,1,934,256,4,29.464,2,1703
 HP,15-bs023nv (i3-6006U/4GB/1TB/FHD/W10),Notebook,Full HD 1920x1080,Intel Core i3 6006U 2GHz,1TB HDD,Intel HD Graphics 520,Windows,2.1,478,2,0,921,1024,4,39.624,1,1716
 HP,EliteBook 840,Ultrabook,2560x1440,Intel Core i7 6500U 2.5GHz,256GB SSD,Intel HD Graphics 520,Windows,1.54,2198.19,2.5,1,921,256,8,35.56,2,1716
 Dell,Vostro 3559,Notebook,1366x768,Intel Core i5 6200U 2.3GHz,500GB HDD,Intel HD Graphics 520,Windows,2.24,737,2.3,0,921,500,4,39.624,1,1716

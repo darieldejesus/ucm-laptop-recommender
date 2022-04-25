@@ -16,8 +16,11 @@ INITIAL_CONTEXT = {
   "message": "",
   "reply": "",
   "action": "",
-  "response": ""
+  "response": "",
+  "requirements": "",
+  "budget": 0
 }
+
 estado= 0
 nombre = ''
 es_nombre = False
@@ -76,6 +79,7 @@ Behavior para ejecutar acciones dado por el motor de reglas
 class RulesActionsBehav(PeriodicBehaviour):
   async def run(self):
     state = get_state("welcome")
+    print(state)
     if state["action"] == actions.EXTRACT_NAME and state["message"] != "":
       ## Enviamos el action y texto al agente Lang
       msg = Message(to=config.AGENT_LANG_USER)
@@ -85,6 +89,32 @@ class RulesActionsBehav(PeriodicBehaviour):
 
       state["message"] = ""
       update_state("welcome", state)
+    elif state["action"] == actions.EXTRACT_REQUIREMENTS and state["message"] != "":
+      ## Enviamos el action y texto al agente Lang
+      msg = Message(to=config.AGENT_LANG_USER)
+      msg.set_metadata("action", actions.EXTRACT_REQUIREMENTS)
+      msg.body = state["message"]
+      await self.send(msg)
+
+      state["message"] = ""
+      update_state("welcome", state)
+    elif state["action"] == actions.LOOK_FOR_REQUIREMENT and state["requirements"] != "":
+      ## Enviamos el action y texto al agente Lang
+      msg = Message(to=config.AGENT_DATA_USER)
+      msg.set_metadata("action", actions.LOOK_FOR_REQUIREMENT)
+      msg.body = state["requirements"]
+      await self.send(msg)
+
+      state["action"] = actions.LOOK_FOR_REQUIREMENT_RESPONSE
+      update_state("welcome", state)
+    elif state["action"] == actions.LOOK_FOR_EDGE_COMPUTERS:
+      ## Enviamos el action y texto al agente Lang
+      msg = Message(to=config.AGENT_DATA_USER)
+      msg.set_metadata("action", actions.LOOK_FOR_EDGE_COMPUTERS)
+      await self.send(msg)
+
+      state["action"] = actions.LOOK_FOR_EDGE_COMPUTERS_RESPONSE
+      update_state("welcome", state)
 
 """
 Behavior para capturar los mensajes por parte del agente language
@@ -93,6 +123,28 @@ class RecvLangBehav(PeriodicBehaviour):
   async def run(self):
     msg_received = await self.receive()
     if msg_received and msg_received.get_metadata("action") == actions.EXTRACT_NAME:
+      ## Actualizar el estado global del motor de reglas
+      state = get_state("welcome")
+      state["response"] = msg_received.body
+      update_state("welcome", state)
+    elif msg_received and msg_received.get_metadata("action") == actions.EXTRACT_REQUIREMENTS:
+      ## Actualizar el estado global del motor de reglas
+      state = get_state("welcome")
+      state["response"] = msg_received.body
+      update_state("welcome", state)
+
+"""
+Behavior para capturar los mensajes por parte del agente de datos
+"""
+class RecvDataBehav(PeriodicBehaviour):
+  async def run(self):
+    msg_received = await self.receive()
+    if msg_received and msg_received.get_metadata("action") == actions.LOOK_FOR_REQUIREMENT:
+      ## Actualizar el estado global del motor de reglas
+      state = get_state("welcome")
+      state["response"] = msg_received.body
+      update_state("welcome", state)
+    elif msg_received and msg_received.get_metadata("action") == actions.LOOK_FOR_EDGE_COMPUTERS:
       ## Actualizar el estado global del motor de reglas
       state = get_state("welcome")
       state["response"] = msg_received.body
@@ -160,6 +212,12 @@ class MainAgent(Agent):
     recv_lang_behav_template.to = config.AGENT_MAIN_USER
     recv_lang_behav_template.sender = config.AGENT_LANG_USER
     self.add_behaviour(recv_lang_behav, recv_lang_behav_template)
+
+    recv_data_behav = RecvDataBehav(period=0.1)
+    recv_data_behav_template = Template()
+    recv_data_behav_template.to = config.AGENT_MAIN_USER
+    recv_data_behav_template.sender = config.AGENT_DATA_USER
+    self.add_behaviour(recv_data_behav, recv_data_behav_template)
 
   def stop(self):
     print("Deteniendo agente \"{}\"".format(str(self.jid)))
