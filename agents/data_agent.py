@@ -7,6 +7,7 @@ from bson.json_util import dumps, loads
 from constants import actions
 import database as db
 import config
+import numpy
 
 class RecvActionMainBehav(PeriodicBehaviour):
   async def run(self):
@@ -40,6 +41,27 @@ class RecvActionMainBehav(PeriodicBehaviour):
       reply_msg = Message(to=config.AGENT_MAIN_USER)
       reply_msg.set_metadata("action", actions.INSERT_REQUIREMENTS)
       reply_msg.body = dumps({ "success": inserted })
+      await self.send(reply_msg)
+    elif msg_received and msg_received.get_metadata("action") == actions.LOOK_FOR_COMPUTERS_RECOMMEND:
+      """Buscar computadoras basado en los requirements dado"""
+      body = loads(msg_received.body)
+      category = db.find_category(body["requirements"])
+      if not category:
+        reply_msg = Message(to=config.AGENT_MAIN_USER)
+        reply_msg.set_metadata("action", actions.LOOK_FOR_COMPUTERS_RECOMMEND)
+        reply_msg.body = dumps({ "found": False })
+        await self.send(reply_msg)
+        return
+
+      avg = numpy.average(category["clusters"])
+      cluster = round(avg)
+      laptop_list = db.find_laptops(cluster)
+      reply_msg = Message(to=config.AGENT_MAIN_USER)
+      reply_msg.set_metadata("action", actions.LOOK_FOR_COMPUTERS_RECOMMEND)
+      reply_msg.body = dumps({
+        "found": True,
+        "body": laptop_list
+      })
       await self.send(reply_msg)
 
 class DataAgent(Agent):

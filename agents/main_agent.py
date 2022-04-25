@@ -81,8 +81,9 @@ Behavior para ejecutar acciones dado por el motor de reglas
 class RulesActionsBehav(PeriodicBehaviour):
   async def run(self):
     state = get_state("welcome")
-    print(state)
-    if state["action"] == actions.EXTRACT_NAME and state["message"] != "":
+    if state["action"] == actions.RESET:
+      update_state("welcome", INITIAL_CONTEXT)
+    elif state["action"] == actions.EXTRACT_NAME and state["message"] != "":
       ## Enviamos el action y texto al agente Lang
       msg = Message(to=config.AGENT_LANG_USER)
       msg.set_metadata("action", actions.EXTRACT_NAME)
@@ -130,22 +131,18 @@ class RulesActionsBehav(PeriodicBehaviour):
       state["action"] = actions.INSERT_REQUIREMENTS_RESPONSE
       state["message"] = ""
       update_state("welcome", state)
+    elif state["action"] == actions.LOOK_FOR_COMPUTERS_RECOMMEND:
+      ## Enviamos el action y texto al agente Lang
+      msg = Message(to=config.AGENT_DATA_USER)
+      msg.set_metadata("action", actions.LOOK_FOR_COMPUTERS_RECOMMEND)
+      msg.body = dumps({
+        "requirements": state["requirements"],
+      })
+      await self.send(msg)
 
-"""
-Behavior para capturar los mensajes por parte del agente language
-"""
-class RecvLangBehav(PeriodicBehaviour):
-  async def run(self):
-    msg_received = await self.receive()
-    if msg_received and msg_received.get_metadata("action") == actions.EXTRACT_NAME:
-      ## Actualizar el estado global del motor de reglas
-      state = get_state("welcome")
-      state["response"] = msg_received.body
-      update_state("welcome", state)
-    elif msg_received and msg_received.get_metadata("action") == actions.EXTRACT_REQUIREMENTS:
-      ## Actualizar el estado global del motor de reglas
-      state = get_state("welcome")
-      state["response"] = msg_received.body
+      state["message"] = ""
+      state["response"] = ""
+      state["action"] = actions.LOOK_FOR_COMPUTERS_RECOMMEND_RESPONSE
       update_state("welcome", state)
 
 """
@@ -165,6 +162,28 @@ class RecvDataBehav(PeriodicBehaviour):
       state["response"] = msg_received.body
       update_state("welcome", state)
     elif msg_received and msg_received.get_metadata("action") == actions.INSERT_REQUIREMENTS:
+      ## Actualizar el estado global del motor de reglas
+      state = get_state("welcome")
+      state["response"] = msg_received.body
+      update_state("welcome", state)
+    elif msg_received and msg_received.get_metadata("action") == actions.LOOK_FOR_COMPUTERS_RECOMMEND:
+      ## Actualizar el estado global del motor de reglas
+      state = get_state("welcome")
+      state["response"] = msg_received.body
+      update_state("welcome", state)
+
+"""
+Behavior para capturar los mensajes por parte del agente language
+"""
+class RecvLangBehav(PeriodicBehaviour):
+  async def run(self):
+    msg_received = await self.receive()
+    if msg_received and msg_received.get_metadata("action") == actions.EXTRACT_NAME:
+      ## Actualizar el estado global del motor de reglas
+      state = get_state("welcome")
+      state["response"] = msg_received.body
+      update_state("welcome", state)
+    elif msg_received and msg_received.get_metadata("action") == actions.EXTRACT_REQUIREMENTS:
       ## Actualizar el estado global del motor de reglas
       state = get_state("welcome")
       state["response"] = msg_received.body

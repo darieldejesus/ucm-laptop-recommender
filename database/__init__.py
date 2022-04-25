@@ -64,6 +64,15 @@ def load_laptops_for_cluster():
 def update_laptops_with_cluster(laptop_list):
   client = get_client()
   collection = client[config.DATABASE_NAME][config.LAPTOPS_COLLECTION_NAME]
+  settings_collection = client[config.DATABASE_NAME][config.SETTINGS_COLLECTION_NAME]
+
+  found = settings_collection.find_one({
+    "cluster_defined": True
+  })
+
+  if found:
+    print("Clusters already defined!")
+    return
 
   for laptop in laptop_list:
     collection.update_one(
@@ -72,6 +81,10 @@ def update_laptops_with_cluster(laptop_list):
         "$set": { "cluster": laptop["cluster"] },
       }
     )
+
+  settings_collection.insert_one({
+    "cluster_defined": True
+  })
   print("Laptops actualizadas!")
 
 def find_category(category):
@@ -123,3 +136,12 @@ def find_edge_laptops():
     "price": 1,
   })
   return [laptop_edge_one, laptop_edge_two]
+
+def find_laptops(cluster):
+  client = get_client()
+  collection = client[config.DATABASE_NAME][config.LAPTOPS_COLLECTION_NAME]
+  cursor = collection.aggregate([
+    { "$match": { "cluster": cluster } },
+    { "$sample": { "size": 3 } }
+  ])
+  return list(cursor)

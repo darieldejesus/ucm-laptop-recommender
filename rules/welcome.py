@@ -117,8 +117,9 @@ with ruleset('welcome'):
   @when_all((s.status == states.LOOK_FOR_REQUIREMENTS) & (s.message == "") & (s.action != actions.LOOK_FOR_REQUIREMENT) & (s.action != actions.LOOK_FOR_REQUIREMENT_RESPONSE))
   def look_for_computer(c):
     print(">>>>>>>>> look_for_computer")
-    c.s.action = actions.LOOK_FOR_REQUIREMENT
+    c.s.response = ""
     c.s.reply = "Gracias por confirmar. Un momento por favor, estoy buscando que recomendar..."
+    c.s.action = actions.LOOK_FOR_REQUIREMENT
 
   @when_all((s.status == states.LOOK_FOR_REQUIREMENTS) & (s.action == actions.LOOK_FOR_REQUIREMENT_RESPONSE) & (s.response != ""))
   def look_for_requirements_response(c):
@@ -127,14 +128,15 @@ with ruleset('welcome'):
     print("Parsed response!", response)
     if not response["found"]:
       c.s.reply = "No conozco esta categoria. Necesito tu ayuda para definirlo. :)"
-      c.s.status = states.LOOK_FOR_EDGE_COMPUTERS
       c.s.response = ""
+      c.s.status = states.LOOK_FOR_EDGE_COMPUTERS
       return
 
-    c.s.status = states.WELCOME
-    c.s.requirements = response["body"]
-    c.s.budget = 0
     c.s.response = ""
+    c.s.message = ""
+    c.s.reply = ":) Tengo algunos equipos para lo que buscas"
+    c.s.action = actions.LOOK_FOR_COMPUTERS_RECOMMEND
+    c.s.status = states.RECOMMEND_COMPUTER
   
   @when_all((s.status == states.LOOK_FOR_EDGE_COMPUTERS) & (s.reply == "") & (s.action != actions.LOOK_FOR_EDGE_COMPUTERS) & (s.action != actions.LOOK_FOR_EDGE_COMPUTERS_RESPONSE))
   def look_for_edge_computers(c):
@@ -219,8 +221,46 @@ with ruleset('welcome'):
 
     c.s.response = ""
     c.s.message = ""
+    c.s.reply = "Gracias!. Acabo de aprender algo nuevo gracias a ti <3 :)\nAhora ya puedo recomendarte algunas computadoras para \"{}\"".format(c.s.requirements)
     c.s.status = states.RECOMMEND_COMPUTER
-    c.s.reply = """
-    Gracias!. Acabo de aprender algo nuevo gracias a ti <3 :)
-    Ahora ya puedo recomendarte algunas computadoras para "{}"
-    """.format(c.s.requirements)
+    c.s.action = actions.LOOK_FOR_COMPUTERS_RECOMMEND
+
+  @when_all((s.status == states.RECOMMEND_COMPUTER) & (s.response != "") & (s.action == actions.LOOK_FOR_COMPUTERS_RECOMMEND_RESPONSE))
+  def recommend_computer(c):
+    print(">>>>>>>>> recommend_computer")
+    response = loads(c.s.response)
+    if not response["found"]:
+      # @TODO Asignar estado correspondiente
+      c.s.reply = "No he completar el proceso que corresponde... algo esta mal :("
+      c.s.response = ""
+      c.s.message = ""
+      return
+    
+    laptops = ""
+    for index, laptop in enumerate(response["body"]):
+      option_message = (
+        "Computadora #{}\n"
+        "\tFabricante: {}\n"
+        "\tModelo: {}\n"
+        "\tCPU: {}\n"
+        "\tGPU: {}\n"
+        "\tRAM: {}GB\n"
+        "\tDisco: {}\n"
+        "\tPrecio: €{}\n\n"
+      )
+      laptops += option_message.format(
+        index + 1,
+        laptop["manufacturer"],
+        laptop["model"],
+        laptop["cpu"],
+        laptop["gpu"],
+        laptop["ram_size"],
+        laptop["storage"],
+        laptop["price"]
+      )
+
+    message = "Estas son algunas computadoras para \"{}\"\n\n{}. \n\nEspero haber ayudado! Un placer!!.\n\n\n\n".format(c.s.requirements, laptops)
+    c.s.reply = message
+    c.s.status = ""
+    c.s.action = actions.RESET
+
