@@ -83,6 +83,17 @@ def find_category(category):
   })
   return found
 
+def insert_category(category, cluster):
+  client = get_client()
+  collection = client[config.DATABASE_NAME][config.CATEGORIES_COLLECTION_NAME]
+  slug = slugify(category)
+  result = collection.insert_one({
+      "name": category,
+      "slug": slug,
+      "clusters": [int(cluster)]
+  })
+  return result.acknowledged
+
 def find_edge_laptops():
   client = get_client()
   collection = client[config.DATABASE_NAME][config.LAPTOPS_COLLECTION_NAME]
@@ -95,7 +106,9 @@ def find_edge_laptops():
     "cpu": 1,
     "storage": 1,
     "gpu": 1,
-    "ram_size": 1
+    "ram_size": 1,
+    "cluster": 1,
+    "price": 1,
   })
   laptop_edge_two = collection.find_one({
     "cluster" : 4
@@ -105,6 +118,8 @@ def find_edge_laptops():
     "cpu": 1,
     "storage": 1,
     "gpu": 1,
-    "ram_size": 1
+    "ram_size": 1,
+    "cluster": 1,
+    "price": 1,
   })
   return [laptop_edge_one, laptop_edge_two]

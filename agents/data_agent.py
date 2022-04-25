@@ -33,6 +33,14 @@ class RecvActionMainBehav(PeriodicBehaviour):
         "body": edges,
       })
       await self.send(reply_msg)
+    elif msg_received and msg_received.get_metadata("action") == actions.INSERT_REQUIREMENTS:
+      """Actualizar respuesta del usuario para el requirement dado"""
+      body = loads(msg_received.body)
+      inserted = db.insert_category(body["requirements"], body["cluster"])
+      reply_msg = Message(to=config.AGENT_MAIN_USER)
+      reply_msg.set_metadata("action", actions.INSERT_REQUIREMENTS)
+      reply_msg.body = dumps({ "success": inserted })
+      await self.send(reply_msg)
 
 class DataAgent(Agent):
   class RecvIntelBehav(PeriodicBehaviour):

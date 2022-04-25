@@ -1,6 +1,7 @@
 import config
 import rules.welcome
 import datetime
+from bson.json_util import dumps
 from constants import states, actions
 from telnetlib import STATUS
 from durable.lang import update_state, post, get_state
@@ -18,7 +19,8 @@ INITIAL_CONTEXT = {
   "action": "",
   "response": "",
   "requirements": "",
-  "budget": 0
+  "budget": 0,
+  "selected_cluster": ""
 }
 
 estado= 0
@@ -115,6 +117,19 @@ class RulesActionsBehav(PeriodicBehaviour):
 
       state["action"] = actions.LOOK_FOR_EDGE_COMPUTERS_RESPONSE
       update_state("welcome", state)
+    elif state["action"] == actions.INSERT_REQUIREMENTS:
+      ## Enviamos el action y texto al agente Lang
+      msg = Message(to=config.AGENT_DATA_USER)
+      msg.set_metadata("action", actions.INSERT_REQUIREMENTS)
+      msg.body = dumps({
+        "cluster": state["selected_cluster"],
+        "requirements": state["requirements"],
+      })
+      await self.send(msg)
+
+      state["action"] = actions.INSERT_REQUIREMENTS_RESPONSE
+      state["message"] = ""
+      update_state("welcome", state)
 
 """
 Behavior para capturar los mensajes por parte del agente language
@@ -145,6 +160,11 @@ class RecvDataBehav(PeriodicBehaviour):
       state["response"] = msg_received.body
       update_state("welcome", state)
     elif msg_received and msg_received.get_metadata("action") == actions.LOOK_FOR_EDGE_COMPUTERS:
+      ## Actualizar el estado global del motor de reglas
+      state = get_state("welcome")
+      state["response"] = msg_received.body
+      update_state("welcome", state)
+    elif msg_received and msg_received.get_metadata("action") == actions.INSERT_REQUIREMENTS:
       ## Actualizar el estado global del motor de reglas
       state = get_state("welcome")
       state["response"] = msg_received.body

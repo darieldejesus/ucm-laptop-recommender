@@ -161,24 +161,66 @@ with ruleset('welcome'):
     response = loads(c.s.response)
     laptops = ""
     for index, laptop in enumerate(response["body"]):
-      laptops += """Computadora #{}
-      Fabricante: {}
-      Modelo: {}
-      CPU: {}
-      GPU: {}
-      RAM: {}GB
-      Disco: {}\n\n
-      """.format(
+      option_message = (
+        "Computadora #{}\n"
+        "\tFabricante: {}\n"
+        "\tModelo: {}\n"
+        "\tCPU: {}\n"
+        "\tGPU: {}\n"
+        "\tRAM: {}GB\n"
+        "\tDisco: {}\n"
+        "\tPrecio: €{}\n\n"
+      )
+      laptops += option_message.format(
         index + 1,
         laptop["manufacturer"],
         laptop["model"],
         laptop["cpu"],
         laptop["gpu"],
         laptop["ram_size"],
-        laptop["storage"]
+        laptop["storage"],
+        laptop["price"]
       )
-    message = "De estas computadoras, ¿Cuál es la más apropiada para \"{}\"? \n\n{}".format(c.s.requirements, laptops)
+
+    message = "De estas computadoras, ¿Cuál es la más apropiada para \"{}\"? \n\n{} \n\nFavor de responder con \"1\" o \"2\".".format(c.s.requirements, laptops)
     c.s.reply = message
     c.s.status = states.ASK_EDGE_COMPUTER
     c.s.action = ""
+
+  @when_all((s.status == states.ASK_EDGE_COMPUTER) & (s.response != "") & (s.reply == "") & (s.message != "") & (s.action != actions.INSERT_REQUIREMENTS) & (s.action != actions.INSERT_REQUIREMENTS_RESPONSE))
+  def show_edge_computers_response(c):
+    print(">>>>>>>>> show_edge_computers_response")
+    response = loads(c.s.response)
+    answer = c.s.message
+    if not answer in ["1", "2"]:
+      c.s.reply = "No he logrado capturar tu respuesta. Por favor con responder con \n\"1\" para la computadora #1 ó \n\"2\" para la computadora #2."
+      c.s.message = ""
+      return
+    
+    answer_index = int(answer) - 1
+    print("$$$$$$$$$$$$$$$$$ A seleccionar cluster", response["body"])
+    print("Tiene?", response["body"][answer_index])
+
+    c.s.selected_cluster = response["body"][answer_index]["cluster"]
     c.s.response = ""
+    c.s.action = actions.INSERT_REQUIREMENTS
+
+  @when_all((s.status == states.ASK_EDGE_COMPUTER) & (s.reply == "") & (s.response != "") & (s.action == actions.INSERT_REQUIREMENTS_RESPONSE))
+  def show_edge_computers_update(c):
+    print(">>>>>>>>> show_edge_computers_update")
+    response = loads(c.s.response)
+    print("Parsed response!", response)
+    if not response["success"]:
+      # @TODO Asignar estado correspondiente
+      c.s.reply = "No he completar el proceso que corresponde... algo esta mal :("
+      c.s.response = ""
+      c.s.message = ""
+      return
+
+    c.s.response = ""
+    c.s.message = ""
+    c.s.status = states.RECOMMEND_COMPUTER
+    c.s.reply = """
+    Gracias!. Acabo de aprender algo nuevo gracias a ti <3 :)
+    Ahora ya puedo recomendarte algunas computadoras para "{}"
+    """.format(c.s.requirements)
