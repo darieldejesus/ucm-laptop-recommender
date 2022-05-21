@@ -21,7 +21,7 @@ with ruleset('welcome'):
   def ask_name_again(c):
     # print(">>>>>>>>> ask_name_again")
     c.s.status = states.ASK_NAME
-    c.s.reply = 'Dispulta, pero no he logrado identificar tu nombre.'
+    c.s.reply = 'Disculpa, pero no he logrado identificar tu nombre.'
     print(c.s.reply)
 
   @when_all((s.status == states.NAME_ASKED) & (s.person == "") & (s.message != "") & (s.action != actions.EXTRACT_NAME))
@@ -62,7 +62,7 @@ with ruleset('welcome'):
   def ask_requirements_again(c):
     print(">>>>>>>>> ask_requirements_again")
     c.s.status = states.ASK_REQUIREMENTS
-    c.s.reply = 'Dispulta, no he logrado identificar lo que buscas.'
+    c.s.reply = 'Disculpa, no he logrado identificar lo que buscas.'
     print(c.s.reply)
 
   @when_all((s.status == states.REQUIREMENTS_ASKED) & (s.message != "") & (s.action != actions.EXTRACT_REQUIREMENTS))

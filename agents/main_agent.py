@@ -9,7 +9,7 @@ from spade.agent import Agent
 from spade.behaviour import PeriodicBehaviour, OneShotBehaviour, TimeoutBehaviour
 from spade.message import Message
 from spade.template import Template
-from Templates import message as sm
+from Templates import message as sm, pln
 
 INITIAL_CONTEXT = {
   "status": states.WELCOME,
@@ -57,6 +57,7 @@ class RecvUserMessageBehav(PeriodicBehaviour):
 
       ## Actualizamos el status global
       update_state("welcome", state)
+
 
 """
 Behavior para enviar mensajes al usuario basado en la propiedad "reply"
