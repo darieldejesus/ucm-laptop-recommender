@@ -3,6 +3,12 @@ from constants import states, actions
 from bson.json_util import loads
 
 with ruleset('welcome'):
+  @when_all(s.status == states.RESET) # @TODO: Procesar mensaje y detectar "salida"
+  def reset(c):
+    print(">>>>>>>>> reset")
+    c.s.status = ""
+    c.s.action = actions.RESET
+
   @when_all(s.message == "salir") # @TODO: Procesar mensaje y detectar "salida"
   def salir_message(c):
     # print(">>>>>>>>> salir_message")
@@ -33,7 +39,7 @@ with ruleset('welcome'):
   @when_all((s.status == states.CONFIRM_FINISH_ANSWER) & (s.message != "") & (s.message != "si") & (s.message != "no")) # @TODO: Procesar mensaje y detectar "no"
   def confirm_finish_unknown_reply(c):
     # print(">>>>>>>>> confirm_finish_unknown_reply")
-    c.s.reply = 'No conozco esa respuesta. Por favor responder con un "si" o un "no".'
+    c.s.reply = 'No conozco esta respuesta. Por favor responder con un "si" o un "no".'
     c.s.message = ""
 
   @when_all(s.status == states.WELCOME)
@@ -292,8 +298,50 @@ with ruleset('welcome'):
         laptop["price"]
       )
 
-    message = "Estas son algunas computadoras para \"{}\"\n\n{}. \n\nEspero haber ayudado! Un placer!!.\n\n\n\n".format(c.s.requirements, laptops)
+    message = "Estas son algunas computadoras para \"{}\"\n\n{}. \n\n¡Espero haber ayudado. ¡Un placer!.\n\n\n\n".format(c.s.requirements, laptops)
     c.s.reply = message
     c.s.status = ""
     c.s.action = actions.RESET
 
+  @when_all(s.status == states.ASK_FOR_FEEDBACK)
+  def ask_for_feedback(c):
+    # print(">>>>>>>>> ask_for_feedback")
+    c.s.reply = "Me gustaría conocer tu nivel de sastifacción. ¿Tienes un momento para responder?"
+    c.s.status = states.ASK_FOR_FEEDBACK_WAIT_REPLY
+    c.s.message = ""
+
+  @when_all((s.status == states.ASK_FOR_FEEDBACK_WAIT_REPLY) & (s.message == "si"))
+  def ask_for_feedback_reply_yes(c):
+    # print(">>>>>>>>> ask_for_feedback_reply_yes")
+    c.s.reply = "¡Excelente!\n\
+      Del 1 al 10, siendo 1 no satisfecho y 10 totalmente satisfecho.\n\
+      ¿Qué tan satisfecho estas con el servicio que te he brindado?"
+    c.s.status = states.FEEDBACK_SATISFACTION_WAIT
+    c.s.message = ""
+
+  @when_all((s.status == states.ASK_FOR_FEEDBACK_WAIT_REPLY) & (s.message == "no"))
+  def ask_for_feedback_reply_no(c):
+    # print(">>>>>>>>> ask_for_feedback_reply_no")
+    c.s.reply = "Terminando sesión.\n\n\n"
+    c.s.status = states.RESET
+
+  @when_all((s.status == states.ASK_FOR_FEEDBACK_WAIT_REPLY) & (s.message != "") & (s.message != "si") & (s.message != "no"))
+  def ask_for_feedback_reply_unknown(c):
+    # print(">>>>>>>>> ask_for_feedback_reply_unknown")
+    c.s.reply = 'No conozco esta respuesta. Por favor responder con un "si" o un "no".'
+    c.s.status = states.ASK_FOR_FEEDBACK_WAIT_REPLY
+    c.s.message = ""
+
+  @when_all((s.status == states.FEEDBACK_SATISFACTION_WAIT) & (s.message != ""))
+  def feedback_satisfaction_reply(c):
+    # print(">>>>>>>>> feedback_satisfaction_reply")
+    if str(c.s.message).isdigit() and int(c.s.message) >= 1 and int(c.s.message) <= 10:
+      c.s.reply = 'Gracias por responder.\n\n'
+      c.s.satisfaction = c.s.message
+      c.s.status = ""
+      c.s.action = actions.INSERT_SATISFACTION
+    else:
+      c.s.reply = 'No conozco esta respuesta. Por favor responder con un numero entre "1" y "10"'
+      c.s.status = states.FEEDBACK_SATISFACTION_WAIT
+
+    c.s.message = ""

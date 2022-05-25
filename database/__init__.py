@@ -145,3 +145,35 @@ def find_laptops(cluster):
     { "$sample": { "size": 3 } }
   ])
   return list(cursor)
+
+"""
+Funcion para insertar los valores dados por los usuarios de nivel de satisfaccion
+"""
+def insert_satisfaction(satisfaction):
+  client = get_client()
+  collection = client[config.DATABASE_NAME][config.SATISFACTION_COLLECTION_NAME]
+  result = collection.insert_one({
+      "satisfaction": satisfaction,
+  })
+  return result.acknowledged
+
+"""
+Funcion para obtener el promedio de satisfaccion en la base de datos
+"""
+def get_avg_satisfaction():
+  client = get_client()
+  collection = client[config.DATABASE_NAME][config.SATISFACTION_COLLECTION_NAME]
+  result = collection.aggregate([
+    {
+      "$group": {
+        "_id": None,
+        "avg_val": {
+          "$avg": "$satisfaction"
+        }
+      }
+    }
+  ])
+  entries = list(result)
+  if len(entries) == 0:
+    return 0
+  return entries[0]["avg_val"]

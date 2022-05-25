@@ -63,6 +63,11 @@ class RecvActionMainBehav(PeriodicBehaviour):
         "body": laptop_list
       })
       await self.send(reply_msg)
+    elif msg_received and msg_received.get_metadata("action") == actions.INSERT_SATISFACTION:
+      """Insertar satisfaccion en la base de datos"""
+      body = loads(msg_received.body)
+      db.insert_satisfaction(body["satisfaction"])
+      # db.get_avg_satisfaction()
 
 class DataAgent(Agent):
   class RecvIntelBehav(PeriodicBehaviour):

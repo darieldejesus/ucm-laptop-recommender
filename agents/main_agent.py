@@ -21,7 +21,8 @@ INITIAL_CONTEXT = {
   "response": "",
   "requirements": "",
   "budget": 0,
-  "selected_cluster": ""
+  "selected_cluster": "",
+  "satisfaction": ""
 }
 
 estado= 0
@@ -54,7 +55,7 @@ class RecvUserMessageBehav(PeriodicBehaviour):
 
       ## Obtengo el state actual para actualizarlo
       state = get_state("welcome")
-      state["message"] = msg_received.body
+      state["message"] = msg_received.body.lower()
 
       ## Actualizamos el status global
       update_state("welcome", state)
@@ -86,7 +87,6 @@ class RulesActionsBehav(PeriodicBehaviour):
     if state["action"] == actions.RESET:
       update_state("welcome", INITIAL_CONTEXT)
     elif state["action"] == actions.EXTRACT_NAME and state["message"] != "":
-      ## Enviamos el action y texto al agente Lang
       msg = Message(to=config.AGENT_LANG_USER)
       msg.set_metadata("action", actions.EXTRACT_NAME)
       msg.body = state["message"]
@@ -95,7 +95,6 @@ class RulesActionsBehav(PeriodicBehaviour):
       state["message"] = ""
       update_state("welcome", state)
     elif state["action"] == actions.EXTRACT_REQUIREMENTS and state["message"] != "":
-      ## Enviamos el action y texto al agente Lang
       msg = Message(to=config.AGENT_LANG_USER)
       msg.set_metadata("action", actions.EXTRACT_REQUIREMENTS)
       msg.body = state["message"]
@@ -104,7 +103,6 @@ class RulesActionsBehav(PeriodicBehaviour):
       state["message"] = ""
       update_state("welcome", state)
     elif state["action"] == actions.LOOK_FOR_REQUIREMENT and state["requirements"] != "":
-      ## Enviamos el action y texto al agente Lang
       msg = Message(to=config.AGENT_DATA_USER)
       msg.set_metadata("action", actions.LOOK_FOR_REQUIREMENT)
       msg.body = state["requirements"]
@@ -113,7 +111,6 @@ class RulesActionsBehav(PeriodicBehaviour):
       state["action"] = actions.LOOK_FOR_REQUIREMENT_RESPONSE
       update_state("welcome", state)
     elif state["action"] == actions.LOOK_FOR_EDGE_COMPUTERS:
-      ## Enviamos el action y texto al agente Lang
       msg = Message(to=config.AGENT_DATA_USER)
       msg.set_metadata("action", actions.LOOK_FOR_EDGE_COMPUTERS)
       await self.send(msg)
@@ -121,7 +118,6 @@ class RulesActionsBehav(PeriodicBehaviour):
       state["action"] = actions.LOOK_FOR_EDGE_COMPUTERS_RESPONSE
       update_state("welcome", state)
     elif state["action"] == actions.INSERT_REQUIREMENTS:
-      ## Enviamos el action y texto al agente Lang
       msg = Message(to=config.AGENT_DATA_USER)
       msg.set_metadata("action", actions.INSERT_REQUIREMENTS)
       msg.body = dumps({
@@ -134,7 +130,6 @@ class RulesActionsBehav(PeriodicBehaviour):
       state["message"] = ""
       update_state("welcome", state)
     elif state["action"] == actions.LOOK_FOR_COMPUTERS_RECOMMEND:
-      ## Enviamos el action y texto al agente Lang
       msg = Message(to=config.AGENT_DATA_USER)
       msg.set_metadata("action", actions.LOOK_FOR_COMPUTERS_RECOMMEND)
       msg.body = dumps({
@@ -145,6 +140,18 @@ class RulesActionsBehav(PeriodicBehaviour):
       state["message"] = ""
       state["response"] = ""
       state["action"] = actions.LOOK_FOR_COMPUTERS_RECOMMEND_RESPONSE
+      update_state("welcome", state)
+    elif state["action"] == actions.INSERT_SATISFACTION and state["reply"] == "":
+      msg = Message(to=config.AGENT_DATA_USER)
+      msg.set_metadata("action", actions.INSERT_SATISFACTION)
+      msg.body = dumps({
+        "satisfaction": int(state["satisfaction"]),
+      })
+      await self.send(msg)
+
+      state["message"] = ""
+      state["response"] = ""
+      state["action"] = actions.RESET
       update_state("welcome", state)
 
 """
