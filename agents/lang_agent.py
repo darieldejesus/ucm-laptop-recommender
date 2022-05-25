@@ -2,7 +2,7 @@ import config
 import spacy
 from bson.json_util import dumps
 from constants import actions
-from Templates import procesamientoLenguajeNatural as pln, message as sm
+from Templates import pln, message as sm
 from spade.agent import Agent
 from spade.message import Message
 from spade.behaviour import PeriodicBehaviour, OneShotBehaviour
@@ -14,11 +14,14 @@ class RecvActionMainBehav(PeriodicBehaviour):
     msg_received = await self.receive()
     if msg_received and msg_received.get_metadata("action") == actions.EXTRACT_NAME:
       # Extraer nombre desde el texto
+      res = await pln.procesarNombre(msg_received.body)
+      print("IMPRIMIENDOOOOOOOOOOOOOOOO", res["found"])
+
       reply_msg = Message(to=config.AGENT_MAIN_USER)
       reply_msg.set_metadata("action", actions.EXTRACT_NAME)
       reply_msg.body = dumps({
-        "found": True,
-        "body": "Dariel De Jesus"
+        "found": res["found"],
+        "body": res["name"]
       })
       await self.send(reply_msg)
     elif msg_received and msg_received.get_metadata("action") == actions.EXTRACT_REQUIREMENTS:
