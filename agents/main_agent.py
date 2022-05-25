@@ -13,6 +13,7 @@ from Templates import message as sm
 
 INITIAL_CONTEXT = {
   "status": states.WELCOME,
+  "prev_status": "",
   "person": "",
   "message": "",
   "reply": "",

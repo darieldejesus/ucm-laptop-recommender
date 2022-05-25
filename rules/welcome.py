@@ -3,6 +3,39 @@ from constants import states, actions
 from bson.json_util import loads
 
 with ruleset('welcome'):
+  @when_all(s.message == "salir") # @TODO: Procesar mensaje y detectar "salida"
+  def salir_message(c):
+    # print(">>>>>>>>> salir_message")
+    c.s.prev_status = c.s.status
+    c.s.status = states.CONFIRM_FINISH
+    c.s.message = ""
+
+  @when_all((s.status == states.CONFIRM_FINISH) & (s.message == ""))
+  def confirm_finish(c):
+    # print(">>>>>>>>> confirm_finish")
+    c.s.reply = "Vamos. Veo que quieres terminar. ¿Es correcto?"
+    c.s.status = states.CONFIRM_FINISH_ANSWER
+  
+  @when_all((s.status == states.CONFIRM_FINISH_ANSWER) & (s.message == "si")) # @TODO: Procesar mensaje y detectar "si"
+  def confirm_finish_answer_yes(c):
+    # print(">>>>>>>>> confirm_finish_answer_yes")
+    c.s.reply = "Bueno. Fue un placer servirte.\n\n\n\n\n\n"
+    c.s.status = ""
+    c.s.action = actions.RESET
+
+  @when_all((s.status == states.CONFIRM_FINISH_ANSWER) & (s.message == "no")) # @TODO: Procesar mensaje y detectar "si"
+  def confirm_finish_answer_no(c):
+    # print(">>>>>>>>> confirm_finish_answer_yes")
+    c.s.reply = "Bueno. Pues continuamos.\n\n"
+    c.s.status = c.s.prev_status
+    c.s.prev_status = ""
+
+  @when_all((s.status == states.CONFIRM_FINISH_ANSWER) & (s.message != "") & (s.message != "si") & (s.message != "no")) # @TODO: Procesar mensaje y detectar "no"
+  def confirm_finish_unknown_reply(c):
+    # print(">>>>>>>>> confirm_finish_unknown_reply")
+    c.s.reply = 'No conozco esa respuesta. Por favor responder con un "si" o un "no".'
+    c.s.message = ""
+
   @when_all(s.status == states.WELCOME)
   def say_hello(c):
     # print(">>>>>>>>> say_hello")

@@ -8,3 +8,4 @@ bson==0.5.10
 sklearn
 numpy
 python-slugify
+spacy
