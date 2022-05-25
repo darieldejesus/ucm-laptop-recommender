@@ -14,13 +14,14 @@ class RecvActionMainBehav(PeriodicBehaviour):
     msg_received = await self.receive()
     if msg_received and msg_received.get_metadata("action") == actions.EXTRACT_NAME:
       # Extraer nombre desde el texto
-      await pln.procesarTexto(msg_received.body)
+      res = await pln.procesarNombre(msg_received.body)
+      print("IMPRIMIENDOOOOOOOOOOOOOOOO", res["found"])
 
       reply_msg = Message(to=config.AGENT_MAIN_USER)
       reply_msg.set_metadata("action", actions.EXTRACT_NAME)
       reply_msg.body = dumps({
-        "found": await pln.procesarTexto(msg_received.body),
-        "body": msg_received.body
+        "found": res["found"],
+        "body": res["name"]
       })
       await self.send(reply_msg)
     elif msg_received and msg_received.get_metadata("action") == actions.EXTRACT_REQUIREMENTS:
