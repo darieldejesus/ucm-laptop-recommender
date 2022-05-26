@@ -9,7 +9,6 @@ from spade.agent import Agent
 from spade.behaviour import PeriodicBehaviour, OneShotBehaviour, TimeoutBehaviour
 from spade.message import Message
 from spade.template import Template
-from Templates import message as sm, pln
 
 INITIAL_CONTEXT = {
   "status": states.WELCOME,
@@ -225,35 +224,9 @@ class MainAgent(Agent):
       # self.presence.subscribe(config.AGENT_LANG_USER)
       self.presence.subscribe(config.END_USER)
 
-  class Saludar(OneShotBehaviour):
-    async def run(self):
-      msg = Message(to=config.END_USER)
-      msg.body = await sm.pln("saludar", estado)
-      globals()['estado'] = 1
-      await self.send(msg)
-
-  class RecvBehav(PeriodicBehaviour):
-    async def run(self):
-      msg_received = await self.receive()
-      if msg_received:        
-        if config.AGENT_LANG_USER in str(msg_received.sender):
-          print("Ejecutar funcion para el agente lang", msg_received.body)
-          msg_reply = Message(to=str(config.END_USER))
-          msg_reply.body = msg_received.body
-          await self.send(msg_reply)
-        
-        elif config.END_USER in str(msg_received.sender):
-          await sm.EnviarMensaje(self, msg_received.body, config.AGENT_LANG_USER)
-          print("Ejecutar funcion para el usuario final", msg_received.body)
-
-        #print("Message received!: {}".format(msg_received.body))
-
   async def setup(self):
     print("Hola!. Soy el agente Asistente. Mi ID es \"{}\"".format(str(self.jid)))
-   
-    received = self.RecvBehav(period=1) 
-    template = Template()
-    # self.add_behaviour(received, template)
+
     self.add_behaviour(self.BehavSubscribe())
 
     start_at = datetime.datetime.now() + datetime.timedelta(seconds=5)

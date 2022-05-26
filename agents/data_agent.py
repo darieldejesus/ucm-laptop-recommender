@@ -77,7 +77,6 @@ class DataAgent(Agent):
   class RecvIntelBehav(PeriodicBehaviour):
     async def run(self):
       msg_received = await self.receive()
-      # print("Mensaje en DataAgente recibido!: {}".format(msg_received))
       if msg_received and msg_received.get_metadata("action") == actions.LOAD_LAPTOPS:
         list_laptops = db.load_laptops_for_cluster()
 

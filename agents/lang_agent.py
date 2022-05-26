@@ -2,7 +2,7 @@ import config
 import spacy
 from bson.json_util import dumps
 from constants import actions
-from Templates import pln, message as sm
+from Templates import pln
 from spade.agent import Agent
 from spade.message import Message
 from spade.behaviour import PeriodicBehaviour, OneShotBehaviour
@@ -15,7 +15,6 @@ class RecvActionMainBehav(PeriodicBehaviour):
     if msg_received and msg_received.get_metadata("action") == actions.EXTRACT_NAME:
       # Extraer nombre desde el texto
       res = pln.extract_name(msg_received.body)
-      # print("IMPRIMIENDOOOOOOOOOOOOOOOO", res["found"])
 
       reply_msg = Message(to=config.AGENT_MAIN_USER)
       reply_msg.set_metadata("action", actions.EXTRACT_NAME)

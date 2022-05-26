@@ -19,20 +19,24 @@ class RequestEntriesBehav(TimeoutBehaviour):
 class RecvDataBehav(PeriodicBehaviour):
   async def run(self):
     msg_received = await self.receive()
-    # print("Mensaje desde IntelAgent recibido!: {}".format(msg_received))
     
     if not msg_received:
       return
     
+    """
+    Obtener listas de computadores portatiles para obtener la listas de "cluster"
+    y asigarlo a cada computador en la base de datos
+    """
     if msg_received.get_metadata("action") == actions.LOAD_LAPTOPS:
       laptop_list = json.loads(msg_received.body)
-      # print("received_data", laptop_list)
+
       values = []
       for laptop in laptop_list:
         values.append([
           laptop["performance"],
           laptop["price"]
         ])
+
       measurable_props = numpy.array(values)
       kmeans = KMeans(n_clusters=5).fit(measurable_props)
       center_ids = kmeans.cluster_centers_
@@ -45,21 +49,14 @@ class RecvDataBehav(PeriodicBehaviour):
           "price": center[1],
         })
 
-      print(center_ids)
-      # print(predictions)
       for index, laptop in enumerate(laptop_list):
         laptop_list[index]["cluster"] = int(predictions[index])
       
       msg = Message(to=config.AGENT_DATA_USER)
       msg.set_metadata("action", actions.UPDATE_LAPTOPS)
       msg.body = json.dumps(laptop_list)
-      await self.send(msg)
 
-      # @TODO Insertar center_inserts en la DB
-      # msg = Message(to=config.AGENT_DATA_USER)
-      # msg.set_metadata("action", actions.UPDATE_CENTER_LAPTOPS)
-      # msg.body = json.dumps(center_ids)
-      # await self.send(msg)
+      await self.send(msg)
 
 class IntelAgent(Agent):
   async def setup(self):
