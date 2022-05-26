@@ -173,7 +173,17 @@ def get_avg_satisfaction():
       }
     }
   ])
+
+  count = collection.count_documents({})
   entries = list(result)
+
   if len(entries) == 0:
-    return 0
-  return entries[0]["avg_val"]
+    return {
+      "count": 0,
+      "avg": 0
+    }
+
+  return {
+    "count": count,
+    "avg": entries[0]["avg_val"]
+  }

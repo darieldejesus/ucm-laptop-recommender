@@ -151,7 +151,6 @@ class RulesActionsBehav(PeriodicBehaviour):
 
       state["message"] = ""
       state["response"] = ""
-      state["action"] = actions.RESET
       update_state("welcome", state)
 
 """
@@ -176,6 +175,11 @@ class RecvDataBehav(PeriodicBehaviour):
       state["response"] = msg_received.body
       update_state("welcome", state)
     elif msg_received and msg_received.get_metadata("action") == actions.LOOK_FOR_COMPUTERS_RECOMMEND:
+      ## Actualizar el estado global del motor de reglas
+      state = get_state("welcome")
+      state["response"] = msg_received.body
+      update_state("welcome", state)
+    elif msg_received and msg_received.get_metadata("action") == actions.INSERT_SATISFACTION:
       ## Actualizar el estado global del motor de reglas
       state = get_state("welcome")
       state["response"] = msg_received.body

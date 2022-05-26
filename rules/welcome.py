@@ -300,10 +300,11 @@ with ruleset('welcome'):
 
     message = "Estas son algunas computadoras para \"{}\"\n\n{}. \n\n¡Espero haber ayudado. ¡Un placer!.\n\n\n\n".format(c.s.requirements, laptops)
     c.s.reply = message
-    c.s.status = ""
-    c.s.action = actions.RESET
+    c.s.message = ""
+    c.s.response = ""
+    c.s.status = states.ASK_FOR_FEEDBACK
 
-  @when_all(s.status == states.ASK_FOR_FEEDBACK)
+  @when_all((s.status == states.ASK_FOR_FEEDBACK) & (s.reply == ""))
   def ask_for_feedback(c):
     # print(">>>>>>>>> ask_for_feedback")
     c.s.reply = "Me gustaría conocer tu nivel de sastifacción. ¿Tienes un momento para responder?"
@@ -313,9 +314,7 @@ with ruleset('welcome'):
   @when_all((s.status == states.ASK_FOR_FEEDBACK_WAIT_REPLY) & (s.message == "si"))
   def ask_for_feedback_reply_yes(c):
     # print(">>>>>>>>> ask_for_feedback_reply_yes")
-    c.s.reply = "¡Excelente!\n\
-      Del 1 al 10, siendo 1 no satisfecho y 10 totalmente satisfecho.\n\
-      ¿Qué tan satisfecho estas con el servicio que te he brindado?"
+    c.s.reply = "¡Excelente!\nDel 1 al 10, siendo 1 no satisfecho y 10 totalmente satisfecho.\n¿Qué tan satisfecho estas con el servicio que te he brindado?"
     c.s.status = states.FEEDBACK_SATISFACTION_WAIT
     c.s.message = ""
 
@@ -336,7 +335,7 @@ with ruleset('welcome'):
   def feedback_satisfaction_reply(c):
     # print(">>>>>>>>> feedback_satisfaction_reply")
     if str(c.s.message).isdigit() and int(c.s.message) >= 1 and int(c.s.message) <= 10:
-      c.s.reply = 'Gracias por responder.\n\n'
+      c.s.reply = 'Gracias por responder.\n'
       c.s.satisfaction = c.s.message
       c.s.status = ""
       c.s.action = actions.INSERT_SATISFACTION
@@ -345,3 +344,16 @@ with ruleset('welcome'):
       c.s.status = states.FEEDBACK_SATISFACTION_WAIT
 
     c.s.message = ""
+  
+  @when_all((s.action == actions.INSERT_SATISFACTION) & (s.response != ""))
+  def feedback_satisfaction_reply_response(c):
+    # print(">>>>>>>>> feedback_satisfaction_reply_response")
+    response = loads(c.s.response)
+    if response["count"] > 0:
+      avg = round(response["avg"], 1)
+      c.s.reply = "Seguiremos mejorando el servicio del asistente.\n\nCon {} usuarios que han valorado nuestro asistente, tenemos un promedio de satisfacción de {}.\n\n\n\n".format(response["count"], avg)
+      c.s.response = ""
+      c.s.action = actions.RESET
+    else:
+      c.s.response = ""
+      c.s.action = actions.RESET
