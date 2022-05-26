@@ -216,7 +216,7 @@ class MainAgent(Agent):
       self.presence.approve(jid)
 
     async def run(self):
-      print("Intentar subscribir")
+      # print("Intentar subscribir")
       self.presence.on_subscribe = self.on_subscribe
       self.presence.on_subscribed = self.on_subscribed
       self.presence.on_available = self.on_available

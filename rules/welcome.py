@@ -52,7 +52,7 @@ with ruleset('welcome'):
   def ask_name(c):
     # print(">>>>>>>>> ask_name")
     c.s.status = states.NAME_ASKED
-    c.s.reply = 'Me podrias decir cual es tu nombre?'
+    c.s.reply = '¿Me podrias decir cual es tu nombre?'
 
   @when_all((s.status == states.ASK_NAME_AGAIN))
   def ask_name_again(c):

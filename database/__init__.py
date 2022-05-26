@@ -71,7 +71,7 @@ def update_laptops_with_cluster(laptop_list):
   })
 
   if found:
-    print("Clusters already defined!")
+    print("Clusters ya se han definido")
     return
 
   for laptop in laptop_list:
