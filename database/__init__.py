@@ -111,9 +111,7 @@ def find_edge_laptops():
   client = get_client()
   collection = client[config.DATABASE_NAME][config.LAPTOPS_COLLECTION_NAME]
   # @TODO Cambiar los valores dinamicamente
-  laptop_edge_one = collection.find_one({
-    "cluster" : 0,
-  }, {
+  columns = {
     "manufacturer": 1,
     "model": 1,
     "cpu": 1,
@@ -122,20 +120,19 @@ def find_edge_laptops():
     "ram_size": 1,
     "cluster": 1,
     "price": 1,
-  })
-  laptop_edge_two = collection.find_one({
-    "cluster" : 4
-  }, {
-    "manufacturer": 1,
-    "model": 1,
-    "cpu": 1,
-    "storage": 1,
-    "gpu": 1,
-    "ram_size": 1,
-    "cluster": 1,
-    "price": 1,
-  })
-  return [laptop_edge_one, laptop_edge_two]
+  }
+  laptop_cluster_0 = collection.find_one({ "cluster" : 0 }, columns)
+  laptop_cluster_1 = collection.find_one({ "cluster" : 1 }, columns)
+  laptop_cluster_2 = collection.find_one({ "cluster" : 2 }, columns)
+  laptop_cluster_3 = collection.find_one({ "cluster" : 3 }, columns)
+  laptop_cluster_4 = collection.find_one({ "cluster" : 4 }, columns)
+  return [
+    laptop_cluster_0,
+    laptop_cluster_1,
+    laptop_cluster_2,
+    laptop_cluster_3,
+    laptop_cluster_4
+  ]
 
 def find_laptops(cluster):
   client = get_client()

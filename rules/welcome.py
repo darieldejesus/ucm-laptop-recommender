@@ -5,7 +5,7 @@ from bson.json_util import loads
 with ruleset('welcome'):
   @when_all(s.status == states.RESET) # @TODO: Procesar mensaje y detectar "salida"
   def reset(c):
-    print(">>>>>>>>> reset")
+    # print(">>>>>>>>> reset")
     c.s.status = ""
     c.s.action = actions.RESET
 
@@ -129,7 +129,7 @@ with ruleset('welcome'):
     print(">>>>>>>>> confirm_requirements")
     c.s.status = states.WAIT_CONFIRM_REQUIREMENTS
     norm_budget = "de €{} euros".format(c.s.budget)
-    c.s.reply = 'A ver si estoy claro... buscas un equipo para "{}" y tienes un presupuesto {}. ¿Estoy correcto?'.format(
+    c.s.reply = 'A ver si estoy claro. Buscas un equipo para "{}" y tienes un presupuesto {}. ¿Estoy en lo correcto?'.format(
       c.s.requirements,
       norm_budget if c.s.budget else "inlimitado"
     )
@@ -152,6 +152,7 @@ with ruleset('welcome'):
 
     c.s.response = ""
     c.s.message = ""
+    c.s.reply = 'No conozco esta respuesta. Por favor responder con un "si" o un "no".'
 
   @when_all((s.status == states.LOOK_FOR_REQUIREMENTS) & (s.message == "") & (s.action != actions.LOOK_FOR_REQUIREMENT) & (s.action != actions.LOOK_FOR_REQUIREMENT_RESPONSE))
   def look_for_computer(c):
@@ -223,7 +224,7 @@ with ruleset('welcome'):
         laptop["price"]
       )
 
-    message = "De estas computadoras, ¿Cuál es la más apropiada para \"{}\"? \n\n{} \n\nFavor de responder con \"1\" o \"2\".".format(c.s.requirements, laptops)
+    message = 'De estas computadoras, ¿Cuál es la más apropiada para "{}"? \n\n{}\n\nPor favor de responder con "1", "2", "3", "4" o "5".'.format(c.s.requirements, laptops)
     c.s.reply = message
     c.s.status = states.ASK_EDGE_COMPUTER
     c.s.action = ""
@@ -232,15 +233,15 @@ with ruleset('welcome'):
   def show_edge_computers_response(c):
     print(">>>>>>>>> show_edge_computers_response")
     response = loads(c.s.response)
-    answer = c.s.message
-    if not answer in ["1", "2"]:
-      c.s.reply = "No he logrado capturar tu respuesta. Por favor con responder con \n\"1\" para la computadora #1 ó \n\"2\" para la computadora #2."
+    answer = str(c.s.message)
+    if not answer.isdigit() or not (int(answer) >= 1 and int(answer) <= 5):
+      c.s.reply = 'No he logrado capturar tu respuesta. Por favor con responder con "1", "2", "3", "4" o "5".'
       c.s.message = ""
       return
-    
+
     answer_index = int(answer) - 1
-    print("$$$$$$$$$$$$$$$$$ A seleccionar cluster", response["body"])
-    print("Tiene?", response["body"][answer_index])
+    # print("$$$$$$$$$$$$$$$$$ A seleccionar cluster", response["body"])
+    # print("Tiene?", response["body"][answer_index])
 
     c.s.selected_cluster = response["body"][answer_index]["cluster"]
     c.s.response = ""
