@@ -2,31 +2,57 @@
 from ntpath import join
 import spacy
 from spacy.lang.es.stop_words import STOP_WORDS
+from spacy.matcher import Matcher
 
-async def procesarNombre(texto):
-    nlp = spacy.load('es_core_news_sm')
+VERB_NOUN_PATTERN = [{"POS": "VERB"}, {"POS": "NOUN"}]
+NUM_PATTERN = [{"POS": "NUM"}]
+NAME_PATTERN = [{"POS": "PROPN"}, {"POS": "PROPN"}]
+
+def get_spacy():
+    # return spacy.load('es_core_news_sm')
+    return spacy.load('es_core_news_lg')
+
+def extract_name(texto):
+    nlp = get_spacy()
     doc = nlp(texto)
     res = {"found": False, "name":""}
 
-    for entity in doc.ents:
-        print(entity.text, entity.label_)
-        if (entity.label_ == "PER"):
-            res["found"] = True
-            res["name"] = entity.text
-    
+    matcher = Matcher(nlp.vocab)
+    matcher.add("NAME", [NAME_PATTERN])
+
+    matches = matcher(doc)
+    for match_id, start, end in matches:
+        string_id = nlp.vocab.strings[match_id]
+        span = doc[start:end]
+        if string_id == "NAME":
+            res = {
+                "found": True,
+                "name": span.text
+            }
+
     return res
-        
 
-    
+def extract_requirements(text):
+    nlp = get_spacy()
+    doc = nlp(text)
 
-async def procesarTexto(texto):
-    nlp = spacy.load('es_core_news_sm')
-    doc = nlp(texto)
-    verbos = {token.lemma_ for token in doc if token.pos_ == "VERB"}  
-    return verbos   
+    matcher = Matcher(nlp.vocab)
+    matcher.add("VERB_NOUN", [VERB_NOUN_PATTERN])
+    matcher.add("NUMBER", [NUM_PATTERN])
 
-"""
-    dinero = {token.lemma_ for token in doc if token.pos_ == "NUM"}
-    verbos = {token.lemma_ for token in doc if token.pos_ == "VERB"}    
-    return "Verbos: "+ " ".join(verbos) + "\n Presupuesto: "+" ".join(dinero)
-"""
+    categories = []
+    budget = -1
+
+    matches = matcher(doc)
+    for match_id, start, end in matches:
+        string_id = nlp.vocab.strings[match_id]
+        span = doc[start:end]
+        if string_id == "VERB_NOUN":
+            categories.append(span.text)
+        if string_id == "NUMBER" and span.text.isdigit():
+            budget = int(span.text)
+
+    return {
+        "categories": categories,
+        "budget": budget
+    }

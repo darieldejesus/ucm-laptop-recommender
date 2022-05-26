@@ -134,6 +134,7 @@ class RulesActionsBehav(PeriodicBehaviour):
       msg.set_metadata("action", actions.LOOK_FOR_COMPUTERS_RECOMMEND)
       msg.body = dumps({
         "requirements": state["requirements"],
+        "budget": state["budget"],
       })
       await self.send(msg)
 

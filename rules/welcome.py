@@ -101,7 +101,16 @@ with ruleset('welcome'):
   def ask_requirements_again(c):
     print(">>>>>>>>> ask_requirements_again")
     c.s.status = states.ASK_REQUIREMENTS
-    c.s.reply = 'Disculpa, no he logrado identificar lo que buscas.'
+
+    mensajes = [
+      "Disculpa, no he logrado identificar lo que buscas. Puedes escribir:\n",
+      '\t- "Busco una computadora para diseñar gráficos"\n'
+      '\t- "Busco un portatil para ver películas"\n'
+      'O simplemente puedes especificar la categoría como:\n',
+      '\t- "videojuegos"\n'
+      '\t- "programar juegos".\n\n'
+    ]
+    c.s.reply = "".join(mensajes)
     print(c.s.reply)
 
   @when_all((s.status == states.REQUIREMENTS_ASKED) & (s.message != "") & (s.action != actions.EXTRACT_REQUIREMENTS))
@@ -109,19 +118,27 @@ with ruleset('welcome'):
     print(">>>>>>>>> requirements_asked")
     c.s.action = actions.EXTRACT_REQUIREMENTS
 
-  @when_all((s.status == states.REQUIREMENTS_ASKED) & (s.action == actions.EXTRACT_REQUIREMENTS) & (s.response != ""))
+  @when_all((s.action == actions.EXTRACT_REQUIREMENTS) & (s.response != ""))
   def requirements_asked_response(c):
     print(">>>>>>>>> requirements_asked_response")
     response = loads(c.s.response)
     print("Parsed response!", response)
-    if not response["found"]:
+    
+    categories = response["categories"]
+    budget = response["budget"]
+
+    if not categories or len(categories) == 0:
       c.s.status = states.ASK_REQUIREMENTS_AGAIN
       c.s.response = ""
       return
 
+    if budget > 0:
+      c.s.budget = budget
+    else:
+      c.s.budget = 0
+
     c.s.status = states.CONFIRM_REQUIREMENTS
-    c.s.requirements = response["body"]
-    c.s.budget = 0
+    c.s.requirements = categories[0]
     c.s.response = ""
   
   @when_all((s.status == states.CONFIRM_REQUIREMENTS) & (s.message == ""))

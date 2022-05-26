@@ -134,13 +134,22 @@ def find_edge_laptops():
     laptop_cluster_4
   ]
 
-def find_laptops(cluster):
+def find_laptops(cluster, budget = 0):
   client = get_client()
   collection = client[config.DATABASE_NAME][config.LAPTOPS_COLLECTION_NAME]
+
+  match = {
+    "cluster": cluster
+  }
+
+  if budget > 0:
+    match["price"] = { "$lte": budget }
+
   cursor = collection.aggregate([
-    { "$match": { "cluster": cluster } },
+    { "$match": match },
     { "$sample": { "size": 3 } }
   ])
+
   return list(cursor)
 
 """

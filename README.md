@@ -61,8 +61,11 @@ Herramientas necesarias para el funcionamiento del sistema:
   ```sh
   $ pip install -r requirements.txt
   ```
+  ```sh
+  $ python -m spacy download es_core_news_lg
+  ```
 
-- **Instalar librerias**
+- **Configurar variables de environment**
   
   Finalmente, configuramos las variables de entorno. Para esto, necesitamos crear un archivo `.env` en el directorio base del proyecto.
   ```sh

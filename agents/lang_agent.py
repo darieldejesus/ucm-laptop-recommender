@@ -14,8 +14,8 @@ class RecvActionMainBehav(PeriodicBehaviour):
     msg_received = await self.receive()
     if msg_received and msg_received.get_metadata("action") == actions.EXTRACT_NAME:
       # Extraer nombre desde el texto
-      res = await pln.procesarNombre(msg_received.body)
-      print("IMPRIMIENDOOOOOOOOOOOOOOOO", res["found"])
+      res = pln.extract_name(msg_received.body)
+      # print("IMPRIMIENDOOOOOOOOOOOOOOOO", res["found"])
 
       reply_msg = Message(to=config.AGENT_MAIN_USER)
       reply_msg.set_metadata("action", actions.EXTRACT_NAME)
@@ -26,28 +26,15 @@ class RecvActionMainBehav(PeriodicBehaviour):
       await self.send(reply_msg)
     elif msg_received and msg_received.get_metadata("action") == actions.EXTRACT_REQUIREMENTS:
       # Extraer requerimientos desde el texto
+      result = pln.extract_requirements(msg_received.body)
       reply_msg = Message(to=config.AGENT_MAIN_USER)
       reply_msg.set_metadata("action", actions.EXTRACT_REQUIREMENTS)
-      reply_msg.body = dumps({
-        "found": True,
-        "body": msg_received.body
-      })
+      reply_msg.body = dumps(result)
       await self.send(reply_msg)
 
 class LangAgent(Agent): 
-  class RecvBehav(PeriodicBehaviour):
-    async def run(self):
-      msg = await self.receive()
-      if msg:
-        res = await pln.procesarTexto(msg.body)
-        await sm.EnviarMensaje(self, res, str(config.AGENT_MAIN_USER))
-
   async def setup(self):
     print("Hola!. Soy el agente encargado del Lenguaje Natural. Mi ID es \"{}\"".format(str(self.jid)))
-    # b = self.RecvBehav(2)
-    # template = Template()
-    # template.set_metadata("test1", "val1")
-    # self.add_behaviour(b, template)
 
     recv_action_main_behav = RecvActionMainBehav(period=0.1)
     recv_action_main_behav_template = Template()

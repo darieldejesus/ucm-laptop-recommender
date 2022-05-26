@@ -55,7 +55,7 @@ class RecvActionMainBehav(PeriodicBehaviour):
 
       avg = numpy.average(category["clusters"])
       cluster = round(avg)
-      laptop_list = db.find_laptops(cluster)
+      laptop_list = db.find_laptops(cluster, body["budget"])
       reply_msg = Message(to=config.AGENT_MAIN_USER)
       reply_msg.set_metadata("action", actions.LOOK_FOR_COMPUTERS_RECOMMEND)
       reply_msg.body = dumps({
